@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Money 80 · My Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&display=swap" rel="stylesheet">
+<style>
+/* VOICE: warm, steady, grown-up. A practice, not a scoreboard.
+   IDEA: a framed watercolor — her private context lives in the painted frame, her practice on the paper inside.
+   PICTURE: three glass vessels whose water physically rises, ripples on real follow-through, and keeps a high-water mark.
+   COLOUR and TYPE: TealSpin teal, fuchsia, purple bleeding into one another; Georgia for her words, DM Sans for the tools.
+   LAYOUT: frame → welcome → one next step → the flow → momentum, people, for you. Phones: frame becomes a top band + bottom tabs. */
+:root{color-scheme:light dark;
+--paper:light-dark(#ffffff,#1b1128);--paper2:light-dark(#f7f2fb,#251937);--ink:light-dark(#24152f,#f4edf9);--mute:light-dark(#6a5a78,#bba9cc);--line:light-dark(#e8dff0,#3b2a4f);
+--teal:#0A949C;--turq:#2CC6C9;--fuch:#DA0C9B;--purp:#6A1B9A;
+--d1:#36cfd1;--d2:#07727a;--k1:#a65ad6;--k2:#561483;--f1:#f24aa9;--f2:#9c0a72;
+--pb:#4d1272;--p1:#0A949C;--p2:#2CC6C9;--p3:#DA0C9B;--p4:#6A1B9A;--p5:#9a1fa8;--p6:#b4128f;--p7:#0b6f8a;
+--tealink:light-dark(#07727a,#62dde2);--fuchink:light-dark(#ad0879,#ff72c9);--purpink:light-dark(#5a1688,#cfa2f5);
+--serif:Georgia,"Iowan Old Style","Palatino Linotype",serif;--sans:"DM Sans",system-ui,-apple-system,sans-serif}
+:root[data-palette=sunrise]{--teal:#C9482F;--turq:#F39A5B;--fuch:#D81B60;--purp:#5E2A84;--d1:#ff9a7a;--d2:#b73b25;--k1:#b16be0;--k2:#5a1a8a;--f1:#f2508f;--f2:#a3104a;--pb:#6a1846;--p1:#E8604C;--p2:#F7A25B;--p3:#D81B60;--p4:#5E2A84;--p5:#a8296b;--p6:#f07a5a;--p7:#8a2a6e}
+:root[data-palette=lagoon]{--teal:#0A7F8A;--turq:#38B6E8;--fuch:#7B4BC4;--purp:#1E3F8A;--d1:#3fd4cf;--d2:#08707a;--k1:#5aaef2;--k2:#1b4c99;--f1:#a083f2;--f2:#5a32b0;--pb:#14306e;--p1:#0A949C;--p2:#38B6E8;--p3:#7B4BC4;--p4:#1E3F8A;--p5:#2a6fc0;--p6:#5d58d0;--p7:#0b6f8a}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:72px}
+body{margin:0;color:var(--ink);font:16px/1.55 var(--sans);background:#4a1470;overflow-x:clip;min-height:100vh}
+h1,h2,h3{font-family:var(--serif);font-weight:400;line-height:1.1;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,4vw,46px)}h2{font-size:clamp(26px,3vw,34px)}h3{font-size:20px}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:3px solid var(--fuch);outline-offset:2px;border-radius:8px}
+.paint{position:fixed;inset:0;width:100%;height:100%;z-index:-1}
+.frame{padding:14px clamp(10px,1.6vw,22px) 22px;min-height:100vh;display:flex;flex-direction:column;gap:14px}
+.top{display:flex;align-items:center;gap:16px;color:#fff;padding:2px 6px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;color:#fff;text-decoration:none;background:none;border:0;padding:0}
+.brand b{font:400 26px/1 var(--serif);letter-spacing:.2px}
+.nav{display:flex;gap:4px;margin-inline:auto;flex-wrap:wrap}
+.nav button{background:none;border:0;color:#fff;padding:10px 14px;border-radius:999px;font-weight:500;min-height:44px;opacity:.86}
+.nav button:hover{background:rgba(255,255,255,.14);opacity:1}
+.nav button[aria-current=page]{background:#fff;color:var(--purp);opacity:1}
+.nav .s{display:none}
+.topr{display:flex;gap:8px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;border:1.5px solid rgba(255,255,255,.55);background:rgba(255,255,255,.1);color:#fff;border-radius:999px;padding:8px 14px;min-height:44px;font-weight:500}
+.pill[aria-pressed=true]{background:#fff;color:var(--purp)}
+.palw{position:relative}.dotp{width:20px;height:20px;border-radius:50%;background:conic-gradient(var(--turq),var(--purp),var(--fuch),var(--turq));border:2px solid #fff}
+.palpop{position:absolute;right:0;top:54px;z-index:75;background:var(--paper);color:var(--ink);border-radius:18px;padding:14px;box-shadow:0 20px 50px -20px rgba(0,0,0,.6);display:none;width:max-content}
+.palpop.open{display:block}.palpop .sw2{border-color:var(--line)}.palpop .sw2[aria-pressed=true]{border-color:var(--ink)}.palpop b{display:block;font:500 14px var(--sans);margin-bottom:8px}
+.body{display:grid;grid-template-columns:272px minmax(0,1fr);gap:16px;flex:1}
+.ctx{color:#fff;display:flex;flex-direction:column;gap:14px;padding:6px 4px}
+.glass{background:rgba(28,8,44,.32);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.18);border-radius:20px;padding:16px}
+.ctx h4{margin:0 0 8px;font:500 14px/1.3 var(--sans);opacity:.85}
+.ctx .who{display:flex;gap:12px;align-items:center}
+.av{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;font:400 22px var(--serif);background:radial-gradient(circle at 30% 30%,var(--turq),var(--purp) 70%);color:#fff;border:2px solid rgba(255,255,255,.7);flex:none}
+.why{display:flex;flex-wrap:wrap;gap:6px}
+.why span{background:rgba(255,255,255,.16);border-radius:999px;padding:4px 11px;font-size:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:14px;padding:5px 0}
+.sw{appearance:none;width:44px;height:26px;border-radius:99px;background:rgba(255,255,255,.28);position:relative;flex:none;cursor:pointer;transition:.2s;margin:0}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s}
+.sw:checked{background:var(--fuch)}.sw:checked::after{left:21px}
+.ctx select{width:100%;background:rgba(255,255,255,.95);color:#2a1638;border:0;border-radius:12px;padding:10px;min-height:44px}
+.canvas{background:var(--paper);border-radius:30px;padding:clamp(20px,3.2vw,44px);box-shadow:0 30px 80px -30px rgba(20,0,40,.55);position:relative;overflow:hidden;min-height:70vh}
+.canvas::before{content:"";position:absolute;inset:0 0 auto;height:6px;background:linear-gradient(90deg,var(--teal),var(--purp),var(--fuch))}
+.lede{color:var(--mute);font-size:17px;max-width:62ch;margin-top:8px}
+.eyebrow{font-weight:500;color:var(--tealink);font-size:15px;margin-bottom:6px}
+.serif{font-family:var(--serif)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:999px;padding:12px 22px;min-height:46px;font-weight:700;background:var(--purp);color:#fff;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 8px 20px -8px rgba(106,27,154,.6)}
+.btn.f{background:var(--fuch)}.btn.t{background:var(--teal)}
+.btn.w{background:#fff;color:var(--purp)}
+.btn.g{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.link{background:none;border:0;padding:6px 0;color:var(--purpink);font-weight:700;text-decoration:underline;text-underline-offset:3px;min-height:36px}
+.card{background:var(--paper2);border-radius:22px;padding:22px}
+.grid3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.sec{margin-top:34px}
+.sech{display:flex;align-items:end;justify-content:space-between;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+.muted{color:var(--mute)}
+.small{font-size:14px}
+/* next step */
+.next{margin-top:24px;border-radius:26px;padding:clamp(22px,3vw,34px);color:#fff;background:radial-gradient(120% 140% at 0% 0%,var(--teal) 0%,transparent 55%),radial-gradient(120% 140% at 100% 100%,var(--fuch) 0%,transparent 55%),var(--purp);position:relative;overflow:hidden;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center}
+.next h2{font-size:clamp(26px,3vw,36px)}
+.next p{opacity:.92;margin-top:8px;max-width:58ch}
+.next .acts{display:flex;gap:10px;flex-wrap:wrap}
+.next .also{margin-top:14px;font-size:15px;background:rgba(255,255,255,.14);display:inline-block;padding:8px 14px;border-radius:14px}
+.next .also button{background:none;border:0;color:#fff;font-weight:700;text-decoration:underline;padding:0}
+.intro{margin-top:22px;border:1.5px dashed var(--line);border-radius:22px;padding:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) auto;gap:18px;align-items:start}
+.intro b{font-family:var(--serif);font-weight:400;font-size:20px;display:block}
+.intro .when{color:var(--tealink);font-weight:700;font-size:14px}
+/* vessels */
+.flow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2.4vw,30px)}
+.vessel{display:flex;flex-direction:column;gap:12px}
+.jar{position:relative;height:260px;border-radius:28px 28px 40px 40px;background:linear-gradient(180deg,var(--paper2),var(--paper));border:2px solid var(--line);overflow:hidden;isolation:isolate}
+.big .jar{height:320px}
+.jar .mk{position:absolute;left:0;right:0;border-top:1.5px dashed light-dark(rgba(60,30,80,.16),rgba(255,255,255,.16));z-index:2}
+.hwm{position:absolute;left:0;right:0;border-top:2px dotted var(--ink);opacity:.55;z-index:3}
+.hwm span{position:absolute;right:8px;top:-26px;font-size:13px;background:var(--paper);padding:1px 8px;border-radius:99px;white-space:nowrap}
+.water{position:absolute;left:0;right:0;bottom:0;transition:height 1.6s cubic-bezier(.25,.8,.25,1);z-index:1}
+.wave{position:absolute;left:0;top:-15px;width:200%;height:18px;animation:drift 7s linear infinite}
+.wave.b{opacity:.5;animation-duration:11s;animation-direction:reverse;top:-11px}
+@keyframes drift{to{transform:translateX(-50%)}}
+.surge .wave{animation-duration:1.6s}
+.surge .wave.a{animation:drift 1.6s linear infinite,swell 1.8s ease-out}
+@keyframes swell{30%{transform:translateX(-12%) scaleY(2.1)}}
+.ring{position:absolute;left:50%;width:30px;height:10px;border:2px solid #fff;border-radius:50%;transform:translate(-50%,-50%);animation:ring 1.6s ease-out forwards;z-index:4;pointer-events:none}
+@keyframes ring{to{width:240px;height:40px;opacity:0}}
+.bub{position:absolute;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,rgba(255,255,255,.2) 60%);animation:rise 2.4s ease-in forwards;z-index:4;pointer-events:none}
+@keyframes rise{to{transform:translateY(-260px);opacity:0}}
+.v-debt{--c1:var(--d1);--c2:var(--d2)}.v-cushion{--c1:var(--k1);--c2:var(--k2)}.v-future{--c1:var(--f1);--c2:var(--f2)}
+.water{background:linear-gradient(180deg,var(--c1),var(--c2))}.wave path{fill:var(--c1)}
+.vm small{color:var(--mute);font-size:14px}
+.vm h3{margin:2px 0 6px}
+.vm .pc{font:400 30px/1 var(--serif)}
+.vm .gl{font-size:14px;color:var(--mute);margin-top:4px}
+.vm .acts{display:flex;gap:4px 14px;flex-wrap:wrap}
+.solid{position:absolute;inset:auto 12px 14px;color:#fff;font-size:14px;text-align:center;z-index:5}
+/* momentum / people / foryou */
+.mo li{list-style:none;display:grid;grid-template-columns:12px minmax(0,1fr);gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+.mo ul{padding:0;margin:0}
+.mo li::before{content:"";width:10px;height:10px;border-radius:50%;margin-top:7px;background:var(--teal)}
+.mo li.k-checkin::before{background:var(--purp)}.mo li.k-mile::before{background:var(--fuch)}.mo li.k-learn::before{background:var(--turq)}
+.mo time{display:block;font-size:13px;color:var(--mute)}
+.counts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.counts span{background:var(--paper);border-radius:999px;padding:4px 12px;font-size:14px}
+.ppl blockquote{margin:0 0 12px;font:400 17px/1.4 var(--serif)}
+.ppl cite{display:block;font:500 14px var(--sans);color:var(--mute);margin-top:4px;font-style:normal}
+.fy .tag{font-size:13px;font-weight:700;color:var(--fuchink)}
+.later{margin-top:16px;display:grid;gap:8px}
+.later div{display:flex;align-items:center;gap:10px;justify-content:space-between;background:var(--paper2);border-radius:14px;padding:8px 8px 8px 16px;flex-wrap:wrap}
+/* flows */
+.flowhead{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:26px}
+.steps{display:flex;gap:6px;flex:1;max-width:520px}
+.steps i{flex:1;height:8px;border-radius:9px;background:var(--line);position:relative;overflow:hidden}
+.steps i.on{background:linear-gradient(90deg,var(--teal),var(--purp))}
+.panel{max-width:720px}
+.f{display:grid;gap:6px;margin-top:18px}
+.f>label,.lab{font-weight:700;font-size:15px}
+.cur{display:flex;align-items:center;background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:0 14px;min-height:50px;max-width:260px}
+.cur:focus-within{border-color:var(--purp)}
+.cur span{color:var(--mute);font-weight:700}
+.cur input,.txt{border:0;background:none;padding:12px 6px;font-size:17px;width:100%;outline:none}
+.txt,textarea,select.in{background:var(--paper2);border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;font-size:16px;width:100%}
+textarea{min-height:96px;resize:vertical}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.chip{border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:9px 16px;min-height:44px;font-weight:500}
+.chip[aria-pressed=true]{background:var(--purp);border-color:var(--purp);color:#fff}
+.chip.sm{min-height:36px;padding:5px 12px;font-size:14px}
+.tip{margin-top:18px;border-radius:18px;padding:14px 16px;background:light-dark(#e9f8f8,#0d3337);display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;font-size:15px}
+.tip svg{width:22px;height:22px;color:var(--tealink);margin-top:1px}
+.tip b{color:var(--tealink)}
+details.opt{margin-top:16px;border-radius:16px;background:var(--paper2);padding:4px 16px}
+details.opt summary{cursor:pointer;padding:12px 0;font-weight:700;color:var(--purpink)}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px 18px;padding-bottom:14px}
+.bill{display:grid;grid-template-columns:auto minmax(0,1fr) 180px auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--line)}
+.bill input[type=checkbox],.ck input{width:22px;height:22px;accent-color:var(--purp)}
+.bill .cur{min-height:44px}
+.x{background:none;border:0;color:var(--mute);width:40px;height:40px;border-radius:50%;font-size:20px}
+.x:hover{background:var(--paper2)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-top:28px;flex-wrap:wrap;padding-top:18px;border-top:1px solid var(--line)}
+.total{font:400 28px/1 var(--serif)}
+.eq{display:grid;grid-template-columns:repeat(4,auto);gap:10px 18px;align-items:end;justify-content:start;margin-top:22px}
+.eq div small{display:block;color:var(--mute);font-size:14px}
+.eq div b{font:400 26px var(--serif)}
+.avail{font:400 clamp(48px,7vw,76px)/1 var(--serif);color:var(--purpink);margin-top:18px}
+.gp{display:grid;grid-template-columns:14px minmax(0,1fr) 200px;gap:14px;align-items:start;padding:16px 0;border-bottom:1px solid var(--line)}
+.gp .dot{width:14px;height:14px;border-radius:50%;margin-top:6px;background:linear-gradient(var(--c1),var(--c2))}
+.gp .chips{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.move{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:14px;align-items:center;padding:16px;border-radius:18px;background:var(--paper2);margin-top:10px;transition:background .3s}
+.move .st{width:34px;height:34px;border-radius:50%;border:2px dashed var(--mute);display:grid;place-items:center}
+.move.s-done{background:light-dark(#e8f8f3,#0f3330)}
+.move.s-done .st{border:0;background:var(--teal);color:#fff}
+.move.s-later{opacity:.75}
+.move.s-later .st{border-style:solid;border-color:var(--purp)}
+.move small{display:block;color:var(--mute);font-size:14px}
+.move .mb{display:flex;gap:6px}
+.big-msg{text-align:center;max-width:620px;margin:20px auto}
+.big-msg h1{font-size:clamp(34px,5vw,52px)}
+.celebwave{height:150px;position:relative;overflow:hidden;border-radius:24px;margin:10px auto 26px;max-width:520px;background:var(--paper2)}
+.celebwave .water{height:55%}
+/* check-in */
+.modes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:24px}
+.mode{text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:24px;padding:22px;display:grid;gap:6px}
+.mode:hover{border-color:var(--purp)}
+.mode b{font:400 24px var(--serif)}
+.mode .t{color:var(--tealink);font-weight:700;font-size:14px}
+.conf{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-top:10px;max-width:520px}
+.conf button{border:1.5px solid var(--line);background:var(--paper);border-radius:18px;height:92px;position:relative;overflow:hidden;font:400 24px var(--serif)}
+.conf button i{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(var(--turq),var(--teal));opacity:.25;transition:.3s}
+.conf button span{position:relative}
+.conf button[aria-pressed=true]{border-color:var(--teal)}
+.conf button[aria-pressed=true] i{opacity:.9}
+.conf button[aria-pressed=true] span{color:#fff}
+.scale{display:flex;justify-content:space-between;max-width:520px;color:var(--mute);font-size:14px;margin-top:6px}
+input[type=range]{width:100%;max-width:520px;accent-color:var(--fuch);height:30px}
+.ck{display:flex;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.lb{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;margin-top:10px}
+.bars{display:flex;gap:10px;align-items:end;height:130px;padding-top:8px}
+.bars div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:end}
+.bars i{width:100%;max-width:38px;border-radius:12px 12px 6px 6px;background:linear-gradient(var(--turq),var(--purp))}
+.bars small{font-size:13px;color:var(--mute)}
+.priv{display:flex;gap:12px;align-items:center;margin-top:18px;background:var(--paper2);border-radius:16px;padding:12px 16px}
+.priv .sw{background:var(--line)}
+.priv .sw:checked{background:var(--fuch)}
+.theme-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:6px}
+/* goals view */
+.gcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.gc{border-radius:22px;padding:20px;background:var(--paper2);display:grid;gap:8px;border-top:6px solid var(--c2)}
+.gc .amt{font:400 24px var(--serif)}
+.bar{height:10px;background:var(--line);border-radius:9px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c1),var(--c2));border-radius:9px}
+.marks{display:flex;gap:10px;flex-wrap:wrap}
+.marks span{border-radius:999px;padding:6px 14px;font-size:14px;background:var(--paper2);border:1.5px solid var(--line)}
+.marks span b{color:var(--fuchink)}
+/* community */
+.spaces{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0 6px}
+.guard{background:light-dark(#fdf0f8,#3a1030);border-radius:16px;padding:12px 16px;margin-top:12px;font-size:15px}
+.compose{background:var(--paper2);border-radius:22px;padding:18px;margin-top:18px}
+.compose textarea{background:var(--paper)}
+.post{padding:20px 0;border-bottom:1px solid var(--line)}
+.post header{display:flex;gap:12px;align-items:center}
+.post .av{width:40px;height:40px;font-size:17px}
+.post p.tx{font:400 19px/1.45 var(--serif);margin:12px 0}
+.reacts{display:flex;gap:8px;flex-wrap:wrap}
+.rb{border:0;border-radius:999px;padding:7px 14px;min-height:40px;background:light-dark(#fbe6f4,#43123a);color:var(--fuchink);font-weight:700;font-size:14px;position:relative}
+.rb[aria-pressed=true]{background:var(--fuch);color:#fff}
+.cmts{margin:12px 0 0 52px;display:grid;gap:10px}
+.cmt{background:var(--paper2);border-radius:16px;padding:10px 14px;font-size:15px}
+.cmt b{display:block;font-size:14px}
+.cmtform{display:flex;gap:8px}
+.flybub{position:fixed;z-index:90;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffb3e2,var(--fuch) 65%);pointer-events:none;animation:fly 1.5s ease-out forwards}
+@keyframes fly{to{transform:translate(var(--dx),-140px) scale(.4);opacity:0}}
+/* learn */
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:18px}
+.art{text-align:left;border:0;background:var(--paper2);border-radius:22px;padding:20px;display:grid;gap:8px;align-content:start}
+.art:hover{outline:2px solid var(--purp)}
+.art b{font:400 21px/1.2 var(--serif)}
+.reader h2{margin:6px 0 14px}.reader p{margin:0 0 12px;font-size:17px;max-width:62ch}
+.reader ul{padding-left:20px;font-size:17px}
+/* onboarding */
+.opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:22px}
+.opt{text-align:left;border:2px solid var(--line);background:var(--paper);border-radius:20px;padding:18px;min-height:88px;display:grid;gap:4px;align-content:start;position:relative}
+.opt b{font:400 20px/1.2 var(--serif)}
+.opt small{color:var(--mute);font-size:14px}
+.opt[aria-pressed=true]{border-color:var(--fuch);background:light-dark(#fdf0f8,#341029)}
+.opt[aria-pressed=true]::after{content:"";position:absolute;top:14px;right:14px;width:14px;height:14px;border-radius:50%;background:var(--fuch)}
+.obg{border-radius:22px;background:var(--paper2);padding:20px;margin-top:16px}
+.est{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px 16px;margin-top:10px}
+.est .cur{max-width:none}
+/* modal, toast, proto */
+.modal{position:fixed;inset:0;z-index:80;background:rgba(25,5,40,.55);display:none;place-items:center;padding:16px}
+.modal.show{display:grid}
+.sheet{background:var(--paper);border-radius:28px;padding:clamp(20px,3vw,34px);width:min(620px,100%);max-height:90vh;overflow:auto;position:relative}
+.sheet .x{position:absolute;top:12px;right:12px}
+.toast{position:fixed;left:50%;bottom:30px;transform:translate(-50%,40px);opacity:0;z-index:95;background:#2a0f3d;color:#fff;padding:14px 22px;border-radius:999px;transition:.4s;font:400 18px var(--serif);text-align:center;max-width:90vw;pointer-events:none}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.proto{position:fixed;right:18px;bottom:18px;z-index:70}
+.vm .acts .link{text-align:left}
+.proto>button{background:#fff;color:var(--purp);border:0;border-radius:999px;padding:10px 16px;font-weight:700;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);min-height:44px}
+.proto .pp{position:absolute;right:0;bottom:56px;width:300px;background:var(--paper);border-radius:20px;padding:18px;box-shadow:0 20px 60px -20px rgba(0,0,0,.6);display:none}
+.proto.open .pp{display:block}
+.proto .pp button.chip{width:100%;text-align:left;margin-top:6px;border-radius:14px}
+.sample{font-size:13px;color:var(--mute);margin-top:10px}
+.mctx{display:none}
+@media (max-width:1100px){.body{grid-template-columns:minmax(0,1fr)}.ctx{display:none}.mctx{display:block}.intro{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:900px){
+ .nav{position:fixed;left:0;right:0;bottom:0;z-index:60;background:var(--paper);margin:0;padding:6px 6px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px -10px rgba(0,0,0,.3);flex-wrap:nowrap;gap:0}
+ .nav button{flex:1;color:var(--ink);padding:8px 2px;font-size:13px;border-radius:14px}
+ .nav button[aria-current=page]{background:var(--purp);color:#fff}
+ .nav .l{display:none}.nav .s{display:inline}
+ .frame{padding-bottom:84px}
+ .topr{margin-left:auto}.proto{bottom:84px;left:12px;right:auto}.proto .pp{left:0;right:auto;width:min(300px,calc(100vw - 24px))}.proto>button{min-height:40px;padding:8px 12px;font-size:14px}.proto .lg{display:none}
+ .grid3,.lb{grid-template-columns:minmax(0,1fr)}
+ .next{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:600px){
+ .top .pill .lbl{display:none}
+ .canvas{border-radius:22px;padding:20px 16px}
+ .jar,.big .jar{height:190px}
+ .vm h3{font-size:16px}.vm .pc{font-size:24px}
+ .vm .gl{display:none}
+ .hwm span{font-size:13px;right:4px;top:-24px;padding:0 5px}
+ .hwm span{display:none}.vm .acts .link{font-size:14px;min-height:30px}
+ .intro,.modes,.two{grid-template-columns:minmax(0,1fr)}
+ .bill{grid-template-columns:auto minmax(0,1fr) auto;}
+ .bill .cur{grid-column:2/3;max-width:none}
+ .gp{grid-template-columns:14px minmax(0,1fr)}
+ .gp .cur{grid-column:2}
+ .eq{grid-template-columns:repeat(2,auto)}
+ .move{grid-template-columns:auto minmax(0,1fr)}
+ .move .mb{grid-column:1/-1}
+ .cmts{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+.calm *,.calm *::before,.calm *::after{animation:none!important;transition:none!important}
+.cele{position:fixed;left:50%;bottom:92px;z-index:96;transform:translate(-50%,30px) scale(.9);opacity:0;transition:.45s cubic-bezier(.3,1.4,.5,1);pointer-events:none;display:flex;align-items:center;gap:12px;background:linear-gradient(120deg,var(--purp),var(--fuch));color:#fff;padding:14px 22px;border-radius:999px;font:400 19px/1.3 var(--serif);box-shadow:0 18px 40px -14px rgba(60,0,80,.6);max-width:min(92vw,620px);text-align:center}
+.cele.show{opacity:1;transform:translate(-50%,0) scale(1)}
+.cele svg{flex:none;width:22px;height:22px;fill:#ffe7a8}
+.cele .tw{animation:tw 1.2s ease-in-out infinite}
+@keyframes tw{50%{transform:scale(.6) rotate(20deg);opacity:.7}}
+.star{position:fixed;z-index:97;width:16px;height:16px;fill:#ffe7a8;pointer-events:none;animation:burst 1.3s ease-out forwards}
+@keyframes burst{to{transform:translate(var(--dx),var(--dy)) rotate(160deg) scale(.3);opacity:0}}
+.more{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:65;display:flex;align-items:center;gap:6px;border:0;border-radius:999px;padding:9px 16px;min-height:42px;background:var(--paper);color:var(--purpink);font-weight:700;box-shadow:0 10px 30px -10px rgba(40,0,60,.5);transition:opacity .3s,transform .3s}
+.more[hidden]{display:flex;opacity:0;pointer-events:none;transform:translate(-50%,10px)}
+.more svg{animation:bob 1.6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(3px)}}
+.tcwrap{display:grid;grid-template-columns:minmax(0,480px) minmax(0,1fr);gap:clamp(20px,3vw,40px);margin-top:24px;align-items:start}
+.tc{min-height:560px;border-radius:28px;overflow:hidden;position:relative;color:#fff;display:flex;flex-direction:column;background:radial-gradient(90% 70% at 0% 0%,var(--p1),transparent 70%),radial-gradient(80% 60% at 100% 0%,var(--p3),transparent 70%),radial-gradient(90% 80% at 50% 60%,var(--p4),transparent 80%),var(--pb);box-shadow:0 30px 60px -30px rgba(40,0,60,.7)}
+.tct{padding:24px 26px 0}
+.tct .tb{display:flex;align-items:center;gap:8px;font:400 17px var(--serif);opacity:.95}
+.tct h2{font-size:clamp(30px,4.4vw,40px);margin-top:14px}
+.tct .since{opacity:.85;font-size:15px;margin-top:4px}
+.tst{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:16px}
+.tst div{background:rgba(255,255,255,.14);border-radius:14px;padding:8px 6px;text-align:center}
+.tst b{display:block;font:400 24px/1.1 var(--serif)}.tst small{font-size:13px;opacity:.9}
+.sea{margin-top:auto;display:flex;flex-direction:column}
+.band{position:relative;background:linear-gradient(180deg,var(--c1),var(--c2));padding:16px 26px 12px;display:flex;flex-direction:column;justify-content:center}
+.band .wave{top:-14px}
+.band small{font-size:13px;opacity:.9;font-weight:500}
+.band p{font:400 18px/1.25 var(--serif);text-shadow:0 1px 2px rgba(0,0,0,.15)}
+.band p::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:#fff;margin-right:9px;vertical-align:3px}
+.band .rp{float:right;font:500 13px var(--sans);background:rgba(255,255,255,.2);border-radius:99px;padding:1px 9px}
+.tcfoot{background:var(--d2);padding:8px 26px 14px;font-size:13px;opacity:.95;display:flex;justify-content:space-between;gap:8px}
+.sws{display:flex;gap:8px;flex-wrap:wrap}
+.sw2{width:44px;height:44px;border-radius:50%;border:3px solid rgba(255,255,255,.5);cursor:pointer;padding:0}
+.sw2[aria-pressed=true]{border-color:#fff;box-shadow:0 0 0 2px rgba(0,0,0,.25)}
+.tc{aspect-ratio:4/5}@media (max-width:520px){.tc{aspect-ratio:auto;min-height:0}.tct{padding-bottom:6px}}
+@media (max-width:900px){.tcwrap{grid-template-columns:minmax(0,1fr)}.tc{max-width:480px;width:100%}.more{bottom:84px}.cele{bottom:150px}}
+@media (max-width:420px){.tst b{font-size:20px}.band p{font-size:16px}.tct{padding:20px 20px 0}.band{padding:14px 20px 10px}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<svg class="paint" viewBox="0 0 1000 700" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+ <defs>
+  <filter id="bleed" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency=".011" numOctaves="3" seed="11"/><feDisplacementMap in="SourceGraphic" scale="120"/><feGaussianBlur stdDeviation="14"/></filter>
+  <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="3"/><feColorMatrix values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .07 0"/></filter>
+ </defs>
+ <rect width="1000" height="700" style="fill:var(--pb)"/>
+ <g filter="url(#bleed)">
+  <circle cx="90" cy="80" r="300" style="fill:var(--p1)"/>
+  <circle cx="300" cy="620" r="260" style="fill:var(--p2)" opacity=".9"/>
+  <circle cx="930" cy="90" r="280" style="fill:var(--p3)"/>
+  <circle cx="620" cy="380" r="220" style="fill:var(--p4)"/>
+  <circle cx="980" cy="660" r="260" style="fill:var(--p5)"/>
+  <circle cx="520" cy="0" r="150" style="fill:var(--p6)" opacity=".7"/>
+  <circle cx="0" cy="430" r="170" style="fill:var(--p7)" opacity=".85"/>
+ </g>
+ <rect width="1000" height="700" filter="url(#grain)"/>
+</svg>
+
+<div class="frame">
+ <header class="top">
+  <button class="brand" data-act="go" data-v="practice" aria-label="Money 80 home">
+   <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2CC6C9"/><stop offset=".55" stop-color="#6A1B9A"/><stop offset="1" stop-color="#DA0C9B"/></linearGradient></defs><circle cx="20" cy="20" r="18" fill="url(#lg)" stroke="#fff" stroke-width="2"/><path d="M5 24 Q12 19 20 24 T35 24 V30 Q28 38 20 38 Q11 38 5 30Z" fill="#fff" opacity=".35"/><text x="20" y="25" text-anchor="middle" font-family="Georgia" font-size="14" fill="#fff">80</text></svg>
+   <b>Money 80</b>
+  </button>
+  <nav class="nav" id="nav" aria-label="Main"></nav>
+  <div class="topr">
+  <div class="palw"><button class="pill" id="palBtn" data-act="palmenu" aria-expanded="false" aria-label="Colors"><span class="dotp" aria-hidden="true"></span><span class="lbl">Colors</span></button><div class="palpop" id="palpop"></div></div>
+   <button class="pill" id="hideBtn" data-act="hide" aria-pressed="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg><span class="lbl">Hide my numbers</span></button>
+  </div>
+ </header>
+ <div class="body">
+  <aside class="ctx" id="ctx" aria-label="My frame"></aside>
+  <main class="canvas" id="main" tabindex="-1"></main>
+ </div>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true"><div class="sheet" id="sheet"></div></div>
+<div class="cele" id="cele" role="status" aria-live="polite"></div>
+<button class="more" id="more" data-act="more" hidden>More below <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="proto" id="proto">
+ <div class="pp" id="pp"></div>
+ <button data-act="proto" aria-expanded="false">Try a<span class="lg"> different</span> day</button>
+</div>
+
+<script>
+{
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const DAY=864e5, NOW=new Date();
+const ago=n=>new Date(NOW-n*DAY).toISOString();
+const fdate=d=>new Date(d).toLocaleDateString('en-US',{month:'short',day:'numeric'});
+const wdate=d=>new Date(d).toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'});
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const num=v=>{const x=parseFloat(String(v??'').replace(/[^0-9.\-]/g,''));return isFinite(x)?x:0};
+const money=n=>'$'+Math.round(n).toLocaleString('en-US');
+const fmt=n=>S.hide?'$•••':money(n);
+const clamp=x=>Math.max(0,Math.min(1,x));
+const ICON={
+ check:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg>',
+ bulb:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3z"/></svg>'
+};
+
+const LAYERS=[
+ {id:'debt',sub:'Debt',title:'Find your footing'},
+ {id:'cushion',sub:'Emergency fund',title:'Build your cushion'},
+ {id:'future',sub:'Future & extras',title:'Make more possible'}];
+const PRI=[
+ {id:'breathing',t:'More breathing room'},{id:'safety',t:'Knowing I have a safety net'},{id:'future',t:'Building something for my future'},
+ {id:'stress',t:'Less financial stress'},{id:'freedom',t:'More flexibility and freedom'}];
+const SUPPORT=[
+ {id:'encourage',t:'Encouragement',d:'Cheer me on when I show up.'},
+ {id:'account',t:'Accountability',d:'Gently check that I followed through.'},
+ {id:'explain',t:'Explanation',d:'Help me understand the why.'},
+ {id:'space',t:'Independent space',d:'Keep it quiet. I’ve got this.'}];
+const FEELS=['calm','hopeful','proud','uncertain','overwhelmed'];
+const THEMES=[
+ {id:'celebrate',n:'Celebrate',q:'What did you do for your money this week? Check anything that fits.',type:'checks',o:['Looked at my balances','Said no to something I didn’t need','Made a transfer or payment','Talked about money with someone','Learned something new','Kept going after a setback']},
+ {id:'reflect',n:'Reflect',q:'How intentional did your spending feel this week?',type:'slider',lo:'Mostly autopilot',hi:'Very intentional'},
+ {id:'grow',n:'Grow',q:'What’s one money topic you’d like to understand better?',type:'choice',o:['Investing','Credit scores','Paying down debt','Taxes','Retirement accounts'],text:'Or put it in your own words'},
+ {id:'reset',n:'Reset',q:'What would make next week feel a little lighter?',type:'choice',o:['Planning meals ahead','Pausing one subscription','One no-spend day','Asking for help with something','Nothing, I’m good']},
+ {id:'connect',n:'Connect',q:'Is there someone you’d like to talk about money with?',type:'choice',o:['My partner','A friend','Family','Someone in the Money 80 community','Not right now'],text:'A private note to yourself'}];
+const BILLS=[['Rent (my share)',950],['Electric & internet',140],['Phone',65],['Car insurance',112],['Groceries until next payday',240],['Gas',80],['Visa minimum payment',85],['Streaming',23]];
+
+const ART=[
+ {id:'ten',tag:'Mindset',m:3,t:'Why a $10 move counts',w:'You don’t build a habit with big numbers. You build it with reps.',b:`<p>A $10 transfer won’t change your net worth this month. It changes something more useful: the story you tell about yourself. Every time you follow through, you collect proof that you’re someone who acts on her plans.</p><p>Habit research keeps landing on the same idea: <b>consistency beats size</b>. Small, repeatable actions are easier to start, easier to repeat, and easier to grow later, when there’s more room.</p><ul><li>Pick an amount that feels almost too easy.</li><li>Tie it to something that already happens, like payday.</li><li>Raise it when it starts to feel automatic, not before.</li></ul>`},
+ {id:'ef',tag:'Savings',m:4,t:'Emergency fund: how much is enough?',w:'A common guideline, plus how to make it yours.',b:`<p>A common guideline is <b>three to six months of essential expenses</b>: housing, utilities, groceries, insurance, transportation and minimum debt payments. It’s not three to six months of your whole paycheck, just the must-haves.</p><p>Your number depends on your life. If your income varies, you’re the only earner, or you have kids or a health situation to plan for, leaning toward six months (or more) makes sense. Two steady incomes might mean three is enough.</p><p>Starting is what matters most. Many people set a <b>starter goal</b> first, like one month of essentials or $1,000, then keep building. Keep the fund somewhere separate and easy to reach, like a high-yield savings account, so it’s there when you need it and out of sight when you don’t.</p>`},
+ {id:'aval',tag:'Debt',m:4,t:'Avalanche or snowball?',w:'Two ways to pay down debt. Both work.',b:`<p><b>Avalanche:</b> pay the minimum on everything, then put any extra toward the debt with the highest interest rate. This usually saves the most money.</p><p><b>Snowball:</b> pay the minimum on everything, then put any extra toward the smallest balance. You knock out a whole debt sooner, and that win can keep you going.</p><p>The best method is the one you’ll stick with. Plenty of people mix them. Any amount above the minimum goes toward the principal, so every extra dollar shortens the road.</p>`},
+ {id:'stmt',tag:'Debt',m:3,t:'Reading your credit card statement without dread',w:'Five numbers to find. That’s it.',b:`<p>Avoiding the statement is common, and the dread is usually worse than the numbers. Here’s what to look for:</p><ul><li><b>Statement balance:</b> what you owed when this billing cycle closed.</li><li><b>Minimum payment due:</b> the least you can pay to stay in good standing.</li><li><b>Due date:</b> pay by this date to avoid a late fee.</li><li><b>APR:</b> the yearly interest rate on any balance you carry.</li><li><b>Interest charged:</b> what carrying a balance cost you this month.</li></ul><p>On most cards, paying the full statement balance by the due date means you aren’t charged interest on new purchases. If that’s not possible yet, anything above the minimum helps.</p>`},
+ {id:'tax',tag:'Variable income',m:5,t:'Setting money aside for taxes when you’re self-employed',w:'Nobody withholds for you, so the set-aside is yours to do.',b:`<p>When you’re self-employed, no employer takes taxes out. You owe <b>self-employment tax</b> (Social Security and Medicare, about 15.3% of net earnings, with the Social Security part capped each year) plus regular income tax.</p><p>That’s why many self-employed people set aside <b>25–30%</b> of what comes in, in a separate account, as each payment lands. Your right number depends on your income, deductions and state.</p><p>The IRS generally expects <b>quarterly estimated payments</b>, usually due in April, June, September and January. A tax professional can help you find your exact percentage. Money 80 is here to help you build the habit, not to give tax advice.</p>`},
+ {id:'roth',tag:'Investing',m:4,t:'What’s a Roth IRA, really?',w:'A retirement account where the growth can come out tax-free.',b:`<p>A Roth IRA is an individual retirement account you fund with money you’ve already paid tax on. In exchange, <b>qualified withdrawals in retirement are tax-free</b>, including the growth.</p><p>You can generally take out what you <i>contributed</i> (not the earnings) at any time without penalty, which makes it feel less locked away for some people. There are yearly contribution limits and income limits, and the IRS updates them, so check the current numbers before you contribute.</p><p>A Roth IRA is the account, not the investment. Once money is in, you choose what it’s invested in. Many people start with a broad, low-cost index fund or a target-date fund.</p>`},
+ {id:'cush',tag:'Basics',m:2,t:'A cushion in checking',w:'The small buffer that keeps one bad week from becoming a fee.',b:`<p>A checking cushion is a small amount you plan to leave in checking, even after bills and goal moves. It absorbs timing surprises: a bill that posts early, a payday that lands late.</p><p>It’s different from an emergency fund. The cushion handles day-to-day wobble. The emergency fund handles real emergencies. Even $100 can help you avoid overdraft fees.</p>`},
+ {id:'feel',tag:'Mindset',m:3,t:'Money feelings are information',w:'Uncertain or overwhelmed isn’t failure. It’s a signal.',b:`<p>The feelings you name in your check-in aren’t grades. They’re information. Overwhelm often means too many open loops. Uncertainty often means a missing number. Pride usually means you kept a promise to yourself.</p><p>When a feeling repeats, ask: what’s one small thing that would make this 10% lighter? Then do only that.</p>`}];
+
+const SAMPLE_POSTS=()=>[
+ {id:'p1',sp:'wins',a:'Danielle R.',t:ago(.2),x:'I made my first transfer to my emergency fund. It was small and I almost talked myself out of it. I did it anyway.',r:{cheer:14,proud:9,metoo:3},c:[{a:'Keisha',x:'The almost-didn’t is the whole thing. So glad you did.'}]},
+ {id:'p2',sp:'wins',a:'Priya S.',t:ago(1),x:'I finally looked at my credit card statement without avoiding it. Took ten minutes. The dread took three months.',r:{cheer:22,proud:11,metoo:17},c:[]},
+ {id:'p3',sp:'wins',a:'Lorena M.',t:ago(2),x:'I understand where my money is going for the first time. Not judging it yet. Just seeing it.',r:{cheer:19,proud:8,metoo:6},c:[]},
+ {id:'p4',sp:'ask',a:'Jess T.',t:ago(.6),x:'Should I put extra toward my card or build savings first? I keep going back and forth and then doing neither.',r:{metoo:12,thanks:4},c:[{a:'Renée',x:'I split it, a little to each, every payday. Seeing both move kept me going.'},{a:'Amara',x:'The Learn piece on avalanche vs snowball helped me. Picking one beats deciding forever.'}]},
+ {id:'p5',sp:'table',a:'Grace O.',t:ago(3),x:'Lesson: I set my Payday Reset reminder for the morning after payday instead of payday itself. One day to breathe makes me actually do it.',r:{thanks:15,metoo:5},c:[]},
+ {id:'p6',sp:'table',a:'Monique B.',t:ago(4),x:'Naming my savings accounts changed everything. “Beach week with my sister” is a lot harder to raid than “Savings 2.”',r:{thanks:21,metoo:9},c:[]},
+ {id:'p7',sp:'check',a:'Tanya W.',t:ago(1.5),x:'This week felt heavy. The car needed work. I still did my reset, even though the moves were tiny.',r:{cheer:18,proud:12},c:[{a:'Lin',x:'Tiny moves in a heavy week count double in my book.'}]}];
+const SPACES=[
+ {id:'wins',n:'The Wins',d:'Actions, habits and milestones worth celebrating.'},
+ {id:'ask',n:'The Ask',d:'Questions of any size. No such thing as a basic one.'},
+ {id:'table',n:'The Learning Table',d:'Lessons you learned the real way.'},
+ {id:'check',n:'The Check-In',d:'How this week actually felt.'}];
+const REACTS={wins:[['cheer','Cheering you on'],['proud','Proud of you'],['metoo','Me too']],ask:[['metoo','Same question'],['thanks','Thank you for asking']],table:[['thanks','Thank you'],['metoo','Trying this']],check:[['cheer','Sending strength'],['proud','Proud of you']]};
+
+function goal(o){const g={prev:o.balance,marks:[],high:0,strategy:'',by:'',why:'',...o};g.high=Math.max(g.high,pct(g));return g}
+function sample(){return{
+ v:3,onboarded:true,visits:6,introSeen:true,name:'Maya',since:ago(96),
+ priorities:['breathing','safety','stress'],support:'encourage',incomeType:'w2',lastIncome:2140,
+ scenario:'both',resetDone:false,checkinDone:false,hide:false,calm:false,inform:true,remind:{payday:true,weekly:true},
+ goals:[
+  goal({id:'g1',layer:'debt',kind:'debt',name:'Pay off the Visa card',start:4200,balance:2890,prev:3180,target:0,why:'Less financial stress',by:'2027-12',strategy:'avalanche',marks:[{p:25,d:ago(38)}]}),
+  goal({id:'g2',layer:'cushion',kind:'save',name:'Emergency fund',balance:1850,prev:1600,target:7500,why:'Knowing I have a safety net',by:'2028-06',strategy:'steady',high:.29,marks:[{p:25,d:ago(55)}]}),
+  goal({id:'g3',layer:'future',kind:'save',name:'Start my Roth IRA',balance:990,prev:900,target:2000,why:'Building something for my future',by:'2027-04',strategy:'steady',marks:[{p:25,d:ago(70)}]})],
+ later:[],
+ log:[{d:ago(14),k:'move',t:'Payday Reset: made all 3 moves you planned'},{d:ago(13),k:'checkin',t:'Weekly check-in: you felt hopeful'},{d:ago(22),k:'learn',t:'Read “Avalanche or snowball?”'},{d:ago(27),k:'move',t:'Kept your Flow honest after a car repair, then kept going'},{d:ago(38),k:'mile',t:'Visa card: a quarter of the way paid down'}],
+ stats:{resets:6,moves:15},
+ checkins:[[42,2,'uncertain'],[35,3,'hopeful'],[28,2,'overwhelmed'],[21,3,'calm'],[13,4,'hopeful'],[7,3,'uncertain']].map(([n,c,f])=>({d:ago(n),conf:c,feel:f})),
+ posts:SAMPLE_POSTS(),mine:{},palette:'tide',showPct:false,month:{resets:2,moves:{debt:2,cushion:2,future:1}},space:'wins',lfilter:'All',
+ reset:null,ci:null,ob:null,themeIdx:Math.floor(NOW/(7*DAY))%5}}
+function newMember(){const s=sample();Object.assign(s,{onboarded:false,visits:0,introSeen:false,name:'',priorities:[],goals:[],log:[],stats:{resets:0,moves:0},month:{resets:0,moves:{debt:0,cushion:0,future:0}},checkins:[],later:[],scenario:'quiet',support:'encourage',ob:{step:0,name:'',pri:[],goals:[],support:'',d:{debt:{bal:'',type:'Credit card'},emerg:{saved:'',path:'know',monthly:'',est:{Housing:'',Utilities:'',Groceries:'',Insurance:'',Transportation:'','Minimum debt payments':'',Other:''},months:3},check:{now:'',target:'500'},invest:{now:'',target:'1000'},mean:{name:'',now:'',target:''}}}});return s}
+
+const KEY='money80-proto-v3';
+let S;try{S=JSON.parse(localStorage.getItem(KEY))}catch(e){}
+if(!S||S.v!==3)S=sample();
+S.palette=S.palette||'tide';S.month=S.month||{resets:2,moves:{debt:2,cushion:2,future:1}};S.showPct=!!S.showPct;
+let saveT;const save=()=>{clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}},150)};
+
+function pct(g){return g.kind==='debt'?(g.start>0?clamp((g.start-g.balance)/g.start):1):(g.target>0?clamp(g.balance/g.target):0)}
+const inLayer=id=>S.goals.filter(g=>g.layer===id);
+function lp(id){const gs=inLayer(id);if(!gs.length)return id==='debt'?1:0;return gs.reduce((s,g)=>s+pct(g),0)/gs.length}
+function lh(id){const gs=inLayer(id);if(!gs.length)return lp(id);return gs.reduce((s,g)=>s+g.high,0)/gs.length}
+const shown={};LAYERS.forEach(L=>shown[L.id]=lp(L.id));
+let pendingFx=null;
+
+function setBalance(g,b){const before=g.high;g.balance=Math.max(0,b);const p=pct(g);const hits=[];
+ [25,50,75,100].forEach(m=>{if(p*100>=m-0.001&&before*100<m-0.001&&!g.marks.some(x=>x.p===m)){g.marks.push({p:m,d:new Date().toISOString()});hits.push(m)}});
+ g.high=Math.max(g.high,p);return hits}
+const mileText=(g,m)=>m===100?`${g.name}: complete.`:g.kind==='debt'?`${g.name}: ${m===50?'halfway':m===25?'a quarter of the way':'three quarters of the way'} paid down`:`${g.name}: ${m===50?'halfway there':m===25?'a quarter of the way there':'three quarters of the way there'}`;
+
+/* ---------- toast, bubbles, modal ---------- */
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3600)}
+function celebrate(m){const c=$('#cele');c.innerHTML=`<span class="tw"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z"/></svg></span><span>${esc(m)}</span><span class="tw" style="animation-delay:.6s"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z"/></svg></span>`;c.classList.add('show');clearTimeout(c._t);c._t=setTimeout(()=>c.classList.remove('show'),5200);
+ if(calm())return;requestAnimationFrame(()=>{const r=c.getBoundingClientRect();for(let i=0;i<14;i++){const a=Math.PI*2*i/14,d=70+Math.random()*60;const st=document.createElementNS('http://www.w3.org/2000/svg','svg');st.setAttribute('viewBox','0 0 24 24');st.setAttribute('class','star');st.innerHTML='<path d="M12 1l2.6 8.4L23 12l-8.4 2.6L12 23l-2.6-8.4L1 12l8.4-2.6z"/>';st.style.cssText=`left:${r.left+r.width/2-8}px;top:${r.top+r.height/2-8}px;--dx:${Math.cos(a)*d*1.6}px;--dy:${Math.sin(a)*d}px;animation-delay:${150+i*25}ms`;document.body.appendChild(st);setTimeout(()=>st.remove(),1700)}})}
+const calm=()=>S.calm||matchMedia('(prefers-reduced-motion: reduce)').matches;
+function fly(el,n=7){if(calm())return;const r=el.getBoundingClientRect();for(let i=0;i<n;i++){const b=document.createElement('span');const z=8+Math.random()*16;b.className='flybub';b.style.cssText=`left:${r.left+r.width/2-z/2+(Math.random()-.5)*r.width*.6}px;top:${r.top}px;width:${z}px;height:${z}px;--dx:${(Math.random()-.5)*90}px;animation-delay:${i*60}ms`;document.body.appendChild(b);setTimeout(()=>b.remove(),1800)}}
+function openModal(h){$('#sheet').innerHTML=`<button class="x" data-act="close" aria-label="Close">×</button>`+h;$('#modal').classList.add('show');setTimeout(()=>$('#sheet').querySelector('input,button.btn,textarea')?.focus(),30)}
+function closeModal(){$('#modal').classList.remove('show');modalState=null}
+let modalState=null;
+
+/* ---------- small builders ---------- */
+const cur=(bind,val,ph='0',id='')=>`<label class="cur"${id?` id="${id}"`:''}><span>$</span><input inputmode="decimal" autocomplete="off" data-bind="${bind}" value="${esc(val===''||val==null?'':(num(val)?Math.round(num(val)*100)/100:val).toLocaleString?.('en-US')??val)}" placeholder="${ph}" aria-label="Amount in dollars"></label>`;
+const tip=(h,art)=>`<div class="tip">${ICON.bulb}<div>${h}${art?` <button class="link" data-act="read" data-v="${art}">Read more</button>`:''}</div></div>`;
+const chip=(act,v,label,on,sm)=>`<button class="chip${sm?' sm':''}" data-act="${act}" data-v="${esc(v)}" aria-pressed="${!!on}">${esc(label)}</button>`;
+const wave=()=>`<svg class="wave a" viewBox="0 0 400 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 Q25 2 50 12 T100 12 T150 12 T200 12 T250 12 T300 12 T350 12 T400 12 V30 H0Z"/></svg><svg class="wave b" viewBox="0 0 400 30" preserveAspectRatio="none" aria-hidden="true"><path d="M0 12 Q25 22 50 12 T100 12 T150 12 T200 12 T250 12 T300 12 T350 12 T400 12 V30 H0Z"/></svg>`;
+const priText=id=>PRI.find(p=>p.id===id)?.t||'';
+const goalById=id=>S.goals.find(g=>g.id===id);
+
+function vessel(L,big){
+ const gs=inLayer(L.id),p=lp(L.id),h=lh(L.id),from=shown[L.id]??p;
+ const none=!gs.length;
+ return `<div class="vessel v-${L.id}${big?' big':''}" data-layer="${L.id}">
+  <div class="jar" role="img" aria-label="${L.title}: ${Math.round(p*100)} percent">
+   ${[25,50,75].map(m=>`<i class="mk" style="bottom:${m}%"></i>`).join('')}
+   ${h>p+.005?`<div class="hwm" style="bottom:${h*100}%"><span>high-water mark<em> · kept</em></span></div>`:''}
+   <div class="water" data-to="${Math.max(p*100,2)}" style="height:${Math.max(from*100,2)}%">${wave()}</div>
+   ${none&&L.id==='debt'?`<div class="solid">No debt to climb out of. You’re on solid ground.</div>`:''}
+  </div>
+  <div class="vm">
+   <small>${L.sub}</small><h3>${L.title}</h3>
+   <div class="pc">${none&&L.id!=='debt'?'<span class="small muted" style="font:16px var(--sans)">Not started</span>':Math.floor(p*100+1e-9)+'%'}</div>
+   ${gs.map(g=>`<p class="gl">${esc(g.name)} · ${g.kind==='debt'?fmt(g.balance)+' left':fmt(g.balance)+' of '+fmt(g.target)}</p>`).join('')}
+   <div class="acts">${gs.length===1?`<button class="link" data-act="upd" data-v="${gs[0].id}">Update balance</button><button class="link" data-act="rethink" data-v="${gs[0].id}">Rethink this goal</button>`:gs.length?`<button class="link" data-act="go" data-v="goals">See goals</button>`:L.id!=='debt'?`<button class="link" data-act="addgoal" data-v="${L.id}">Add a goal</button>`:''}</div>
+  </div></div>`}
+
+function animateFlow(){
+ const fx=pendingFx;pendingFx=null;
+ requestAnimationFrame(()=>requestAnimationFrame(()=>{
+  $$('.vessel').forEach(v=>{const w=v.querySelector('.water');const L=v.dataset.layer;const to=+w.dataset.to;const was=parseFloat(w.style.height);w.style.height=to+'%';shown[L]=lp(L);
+   if(to>was+.2&&!calm()){v.classList.add('surge');const jar=v.querySelector('.jar');const ring=document.createElement('span');ring.className='ring';ring.style.top=(100-to)+'%';jar.appendChild(ring);
+    const big=fx&&fx.miles&&fx.miles.includes(L);for(let i=0;i<(big?18:5);i++){const b=document.createElement('span');const z=5+Math.random()*(big?16:9);b.className='bub';b.style.cssText=`left:${10+Math.random()*80}%;bottom:${Math.random()*to*.8}%;width:${z}px;height:${z}px;animation-delay:${300+i*(big?110:180)}ms`;jar.appendChild(b)}
+    setTimeout(()=>{v.classList.remove('surge');jar.querySelectorAll('.ring,.bub').forEach(x=>x.remove())},4200)}});
+  if(fx&&fx.msg)setTimeout(()=>celebrate(fx.msg),900);
+ }))}
+
+/* ---------- dashboard ---------- */
+const dueP=()=>['both','payday'].includes(S.scenario)&&!S.resetDone;
+const dueC=()=>['both','checkin'].includes(S.scenario)&&!S.checkinDone;
+const nextPay=()=>new Date(+NOW+(['both','payday'].includes(S.scenario)?14:7)*DAY);
+function greeting(){const h=NOW.getHours();return h<12?'Good morning':h<17?'Good afternoon':'Good evening'}
+function insight(){
+ const P=S.priorities,grew=gs=>gs.some(g=>g.kind==='debt'?g.balance<g.prev:g.balance>g.prev);
+ if(!S.stats.moves)return P.length?`You told us ${priText(P[0]).toLowerCase()} matters most. Your first Payday Reset is where that starts.`:'Your practice starts with one small move.';
+ if(P.includes('breathing')&&grew(inLayer('cushion')))return 'You’re building the breathing room you told us you wanted.';
+ if(P.includes('safety')&&grew(inLayer('cushion')))return 'Your safety net is stronger than it was a month ago, just like you wanted.';
+ if(P.includes('stress')&&grew(inLayer('debt')))return 'That debt is lighter than it was a month ago. Less weight to carry, like you asked for.';
+ if((P.includes('future')||P.includes('freedom'))&&grew(inLayer('future')))return 'You’re building something for your future, and it’s starting to show.';
+ return 'You keep showing up for your money. That’s the practice.'}
+function reflectionLine(){
+ if(!S.inform)return '';const c=S.checkins[S.checkins.length-1];if(!c||NOW-new Date(c.d)>10*DAY)return '';
+ const m={uncertain:'Last week money felt uncertain. You don’t need certainty to take one small step.',overwhelmed:'Last week felt like a lot. Today, one small thing is plenty.',calm:'Last week felt calm. Let’s protect that.',hopeful:'Last week you felt hopeful. Today is a chance to build on it.',proud:'Last week you felt proud. You earned that.'};
+ return m[c.feel]||''}
+function nextStep(){
+ const p=dueP(),c=dueC();
+ if(p)return `<section class="next" aria-labelledby="ns"><div><div style="font-weight:700;opacity:.9">Your next step · it’s payday</div><h2 id="ns">Your Payday Reset is ready</h2><p>About five minutes: see what came in, decide on a few small moves, then make them.</p>${c?`<div class="also">Your weekly check-in is open too, whenever you like. <button data-act="go" data-v="checkin">Start it first</button></div>`:''}</div><div class="acts"><button class="btn w" data-act="startreset">Start my reset</button></div></section>`;
+ if(c)return `<section class="next" aria-labelledby="ns"><div><div style="font-weight:700;opacity:.9">Your next step · weekly check-in</div><h2 id="ns">How’s your money feeling this week?</h2><p>Thirty seconds, or a few quiet minutes. Your call.</p></div><div class="acts"><button class="btn w" data-act="cimode" data-v="quick">Quick pulse</button><button class="btn" style="background:rgba(255,255,255,.18)" data-act="cimode" data-v="moment">Take a moment</button></div></section>`;
+ const lt=S.later.length?`<div class="later" style="margin-top:14px">${S.later.map((m,i)=>`<div style="background:rgba(255,255,255,.16)"><span>${esc(m.label)}</span><span style="display:flex;gap:6px"><button class="btn w" style="min-height:40px;padding:8px 14px" data-act="laterdone" data-v="${i}">I did it</button><button class="btn" style="min-height:40px;padding:8px 14px;background:transparent;border:1.5px solid rgba(255,255,255,.6)" data-act="laterdrop" data-v="${i}">Let it go</button></span></div>`).join('')}</div>`:'';
+ return `<section class="next" aria-labelledby="ns"><div><div style="font-weight:700;opacity:.9">Your next step</div><h2 id="ns">${S.later.length?'You saved a move for later':'Nothing’s due today'}</h2><p>${S.later.length?'Whenever it fits, make it with your bank and mark it here. Or let it go. Plans change.':`You’re caught up. Your next Payday Reset is ${wdate(nextPay())}. Come back whenever it’s useful.`}</p>${lt}</div></section>`}
+function vPractice(){
+ const intro=!S.introSeen?`<section class="intro" aria-label="How Money 80 works"><div><span class="when">Every payday · 5 min</span><b>Payday Reset</b><p class="small muted">Review what came in, plan small moves, make them, watch your Flow rise.</p></div><div><span class="when">Once a week · 30 sec–3 min</span><b>Weekly Check-In</b><p class="small muted">Notice how money feels. That’s data too, and it stays private.</p></div><div><span class="when">Whenever it helps</span><b>Learn & Connect</b><p class="small muted">Short reads that show up when they’re relevant, plus people who get it.</p></div><button class="btn g" data-act="introok">Got it</button></section>`:'';
+ const rl=reflectionLine();
+ const lastC=S.checkins.slice(-6);
+ const mine=S.posts.filter(p=>S.mine[p.id]);
+ return `<p class="eyebrow">${NOW.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}</p>
+ <h1>${greeting()}, ${esc(S.name)}.</h1>
+ <p class="lede serif" style="font-size:21px;color:var(--ink)">${insight()}</p>${rl?`<p class="lede">${rl}</p>`:''}
+ ${intro}${nextStep()}
+ <section class="sec" aria-labelledby="ff"><div class="sech"><div><h2 id="ff">Your Financial Flow</h2><p class="muted small">Three tides that rise on their own. Only moves you’ve made count, and milestones stay yours.</p></div><button class="link" data-act="go" data-v="goals">All goals</button></div>
+  <div class="flow">${LAYERS.map(L=>vessel(L)).join('')}</div></section>
+ <section class="sec grid3">
+  <div class="card mo"><h3>Your Momentum</h3><div class="counts" style="margin-top:10px"><span>${S.stats.resets} resets</span><span>${S.stats.moves} moves made</span><span>${S.checkins.length} check-ins</span></div>
+   ${S.log.length?`<ul>${S.log.slice(0,4).map(l=>`<li class="k-${l.k}"><div>${esc(l.t)}<time>${fdate(l.d)}</time></div></li>`).join('')}</ul>`:'<p class="muted small">Your first completed move will show up here.</p>'}<button class="link" data-act="go" data-v="tide">See your ${MONTH} tide chart</button>
+  </div>
+  <div class="card ppl"><h3 style="margin-bottom:12px">Your People</h3>
+   ${(mine.length?mine.slice(0,1):[]).concat(S.posts.filter(p=>p.sp==='wins'&&!S.mine[p.id]).slice(0,mine.length?1:2)).map(p=>`<blockquote>“${esc(p.x.length>110?p.x.slice(0,108)+'…':p.x)}”<cite>${S.mine[p.id]?'You':esc(p.a)} · ${Object.values(p.r).reduce((a,b)=>a+b,0)} cheers</cite></blockquote>`).join('')}
+   <button class="link" data-act="go" data-v="community">Visit The Wins</button></div>
+  <div class="card fy">${forYou()}</div>
+ </section>
+ <p class="sample">Maya and her numbers are sample data for this prototype.</p>`}
+function forYou(){
+ const c=S.checkins[S.checkins.length-1];
+ let id=dueP()?'ten':(c&&['uncertain','overwhelmed'].includes(c.feel)&&S.inform)?'feel':S.goals.some(g=>g.kind==='debt')?'stmt':'ef';
+ const a=ART.find(x=>x.id===id),why={ten:'Because it’s payday',feel:'Because of how last week felt',stmt:'Because you’re paying down a card',ef:'For your cushion'}[id];
+ return `<h3>For You</h3><p class="tag" style="margin-top:10px">${why} · ${a.m} min read</p><p class="serif" style="font-size:21px;line-height:1.25;margin:6px 0">${a.t}</p><p class="small muted">${a.w}</p><button class="link" data-act="read" data-v="${a.id}">Read it</button>`}
+
+/* ---------- payday reset ---------- */
+function newReset(){return{step:0,type:S.incomeType||'w2',income:'',det:{gross:'',tax:'',ret:'',ben:''},deps:[{l:'Client payment',a:''}],taxPct:S.incomeType==='self'?25:0,biz:'',bills:BILLS.map(([l,a])=>({l,a,on:true})),buffer:100,plan:{},moves:[]}}
+const R=()=>S.reset;
+function rIncome(r){if(r.type==='w2')return num(r.income);const d=r.deps.reduce((s,x)=>s+num(x.a),0);return d-d*num(r.taxPct)/100-(r.type==='self'?num(r.biz):0)}
+const rSpoken=r=>r.bills.filter(b=>b.on).reduce((s,b)=>s+num(b.a),0);
+const rAvail=r=>rIncome(r)-rSpoken(r)-num(r.buffer);
+const rPlanned=r=>Object.values(r.plan).reduce((s,a)=>s+num(a),0);
+const OUT={
+ inc:()=>money(rIncome(R())),spk:()=>money(rSpoken(R())),avl:()=>money(Math.max(0,rAvail(R()))),pln:()=>money(rPlanned(R())),
+ rem:()=>{const x=rAvail(R())-rPlanned(R());return x>=0?`${money(x)} stays in checking for everyday life.`:`That’s ${money(-x)} more than what’s available. Want to trim a move?`},
+ taxamt:()=>{const r=R();const d=r.deps.reduce((s,x)=>s+num(x.a),0);return money(d*num(r.taxPct)/100)},taxp:()=>num(R().taxPct)+'%',
+ retnote:()=>{const v=num(R().det.ret);return v?`That ${money(v)} to retirement is already working for your future. It counts, even though you never see it land.`:'Retirement contributions taken from your check are progress too. We’ll note it.'},
+ est:()=>money(estTotal()),esttarget:()=>money(emergTarget()),months:()=>S.ob?.d.emerg.months+' months',
+ pace:()=>pace(),
+ reflect:()=>{const v=S.ci?.ans??3;return ['','Mostly autopilot','A little on purpose','Somewhere in between','Mostly intentional','Very intentional'][v]}};
+function vReset(){
+ if(!S.reset)S.reset=newReset();
+ const r=S.reset,labels=['What came in','Spoken for','Available','Plan','Make the moves'];
+ const head=r.step<5?`<div class="flowhead"><div><p class="eyebrow">Payday Reset · about 5 minutes</p></div><div class="steps" aria-label="Step ${r.step+1} of 5">${labels.map((l,i)=>`<i class="${i<=r.step?'on':''}" title="${l}"></i>`).join('')}</div></div>`:'';
+ return head+`<div class="panel">${[rs0,rs1,rs2,rs3,rs4,rs5][r.step](r)}</div>`}
+const back=`<button class="btn g" data-act="rback">Back</button>`;
+function rs0(r){
+ const seg=[['w2','A steady paycheck'],['vary','It varies'],['self','I’m self-employed']].map(([v,l])=>chip('rtype',v,l,r.type===v)).join('');
+ let body;
+ if(r.type==='w2')body=`<div class="f"><label>Take-home pay that landed in your account</label>${cur('reset.income',r.income,'0.00')}${S.lastIncome?`<div><button class="chip sm" data-act="lastinc">Same as last time · ${money(S.lastIncome)}</button></div>`:''}</div>
+  <details class="opt"><summary>Optional: where did the rest of your paycheck go?</summary><div class="two">
+   <div class="f"><label>Gross pay</label>${cur('reset.det.gross',r.det.gross)}</div><div class="f"><label>Taxes withheld</label>${cur('reset.det.tax',r.det.tax)}</div>
+   <div class="f"><label>Retirement (401k, 403b)</label>${cur('reset.det.ret',r.det.ret)}</div><div class="f"><label>Benefits (health, dental)</label>${cur('reset.det.ben',r.det.ben)}</div></div>
+   <p class="small" data-out="retnote" style="padding-bottom:14px">${OUT.retnote()}</p></details>
+  ${tip('<b>Why take-home?</b> It’s the money you can actually move. Taxes and benefits already came out before it reached you.')}`;
+ else body=`<div class="f"><span class="lab">What came in since your last reset?</span>${r.deps.map((d,i)=>`<div class="bill" style="grid-template-columns:minmax(0,1fr) 180px auto"><input class="txt" data-bind="reset.deps.${i}.l" value="${esc(d.l)}" aria-label="Where it came from">${cur(`reset.deps.${i}.a`,d.a)}<button class="x" data-act="rmdep" data-v="${i}" aria-label="Remove">×</button></div>`).join('')}<div><button class="link" data-act="adddep">+ Add another deposit</button></div></div>
+  <div class="f"><label for="tx">Set aside for taxes: <span data-out="taxp">${num(r.taxPct)}%</span> · <span data-out="taxamt">${OUT.taxamt()}</span></label><input id="tx" type="range" min="0" max="40" step="1" value="${num(r.taxPct)}" data-bind="reset.taxPct"></div>
+  ${r.type==='self'?`<div class="f"><label>Business costs to cover this period</label>${cur('reset.biz',r.biz)}<p class="small muted">Software, supplies, mileage, booth fees. Whatever keeps the business running.</p></div>`:''}
+  ${tip(r.type==='self'?'<b>No one withholds taxes for you.</b> Many self-employed people set aside 25–30% of each payment in a separate account. Your number depends on your income and state.':'<b>If taxes are already withheld</b> (hourly, tips through payroll), leave this at 0%. If some income is cash or 1099, set some aside.','tax')}`;
+ return `<h2>What came in?</h2><p class="lede">Start with what actually landed. No bank syncing: typing it is part of noticing it.</p><div class="seg" role="group" aria-label="Income type">${seg}</div>${body}
+ <div class="foot"><div><span class="muted small">To work with</span><div class="total" data-out="inc">${OUT.inc()}</div></div><button class="btn" data-act="rnext">Next: what’s spoken for</button></div>`}
+function rs1(r){return `<h2>What’s already spoken for?</h2><p class="lede">Bills and must-haves due before your next payday. Uncheck anything that isn’t due this time.</p>
+ <div style="margin-top:18px">${r.bills.map((b,i)=>`<div class="bill"><input type="checkbox" data-bind="reset.bills.${i}.on" ${b.on?'checked':''} aria-label="Include ${esc(b.l)}"><input class="txt" style="background:none;border:0;padding:8px 0" data-bind="reset.bills.${i}.l" value="${esc(b.l)}" aria-label="Bill name">${cur(`reset.bills.${i}.a`,b.a)}<button class="x" data-act="rmbill" data-v="${i}" aria-label="Remove">×</button></div>`).join('')}
+ <button class="link" data-act="addbill">+ Add something</button></div>
+ ${tip('<b>Minimum debt payments go here.</b> Anything extra toward debt comes in the plan step. That’s where the progress happens.')}
+ <div class="foot"><div><span class="muted small">Spoken for</span><div class="total" data-out="spk">${OUT.spk()}</div></div><div style="display:flex;gap:8px">${back}<button class="btn" data-act="rnext">Next: what’s available</button></div></div>`}
+function rs2(r){const a=rAvail(r);return `<h2>Here’s what’s yours to direct.</h2>
+ <div class="eq"><div><small>Came in</small><b data-out="inc">${OUT.inc()}</b></div><div><small>Spoken for</small><b>− <span data-out="spk">${OUT.spk()}</span></b></div><div><small>Breathing room in checking</small>${cur('reset.buffer',r.buffer)}</div></div>
+ <div class="avail" data-out="avl">${OUT.avl()}</div><p class="muted">available to put toward what matters</p>
+ ${a<=0?`<div class="guard" style="margin-top:16px">This paycheck is fully spoken for. That happens, and it isn’t a failure. You can skip goal moves today. Doing the review still counts.</div>`:''}
+ ${tip('<b>Why keep breathing room?</b> A small buffer in checking absorbs a bill that posts early or a payday that lands late, so one wobble doesn’t turn into a fee.','cush')}
+ <div class="foot"><span></span><div style="display:flex;gap:8px">${back}<button class="btn" data-act="rnext">Next: plan small moves</button></div></div>`}
+function rs3(r){
+ const sug={encourage:'Even $10 counts. Pick amounts you’ll actually follow through on.',account:`Last payday you made 3 moves. Want to match that?`,explain:'Small, steady amounts beat big, occasional ones. Habits compound before dollars do.',space:''}[S.support];
+ const why={debt:'Anything above the minimum goes straight to the balance, so it shortens the road.',save:'Separate savings is easier to protect when it’s out of sight.'};
+ return `<h2>What small amounts can go toward your goals?</h2><p class="lede">${sug||'Plan whatever feels right.'}</p>
+ ${S.goals.length?S.goals.map(g=>{const L=LAYERS.find(l=>l.id===g.layer);return `<div class="gp v-${g.layer}"><i class="dot"></i><div><b>${esc(g.name)}</b><div class="small muted">${L.title} · ${g.layer==='future'&&/ira|invest/i.test(g.name)?'Contributions grow over time, and the earlier, the better.':why[g.kind]}</div><div class="chips">${[10,25,50].map(a=>`<button class="chip sm" data-act="amt" data-g="${g.id}" data-v="${a}">$${a}</button>`).join('')}</div></div>${cur('reset.plan.'+g.id,r.plan[g.id]??'')}</div>`}).join(''):'<p class="guard">You don’t have a goal yet. <button class="link" data-act="addgoal" data-v="cushion">Add one</button></p>'}
+ <p class="small" style="margin-top:14px" data-out="rem">${OUT.rem()}</p>
+ <div class="foot"><div><span class="muted small">Planned</span><div class="total" data-out="pln">${OUT.pln()}</div></div><div style="display:flex;gap:8px;flex-wrap:wrap">${back}<button class="btn g" data-act="skipmoves">No moves this time</button><button class="btn f" data-act="planmoves">Plan these moves</button></div></div>`}
+function rs4(r){
+ const done=r.moves.filter(m=>m.s==='done').length,lat=r.moves.filter(m=>m.s==='later').length;
+ return `<h1 style="color:var(--fuchink)">Amazing. Let’s make those moves!</h1>
+ <p class="lede">Open your bank app and make each one. Then tap <b>Done</b>. We never move money for you, and only moves you mark done change your Flow.</p>
+ ${r.moves.map((m,i)=>{const g=goalById(m.g);return `<div class="move s-${m.s}"><span class="st" aria-hidden="true">${m.s==='done'?ICON.check:''}</span><div><b>${esc(m.label)}</b><small>${g.kind==='debt'?'Pay it on your card’s app or website, as an extra payment.':'Transfer from checking to the account where this goal lives.'}${m.s==='later'?' · Saved for later':m.s==='done'?' · Done':' · Planned'}</small></div><div class="mb"><button class="btn t" style="min-height:42px;padding:8px 16px" data-act="mv" data-i="${i}" data-v="done" aria-pressed="${m.s==='done'}">${m.s==='done'?'Done':'I did it'}</button><button class="btn g" style="min-height:42px;padding:8px 16px" data-act="mv" data-i="${i}" data-v="later" aria-pressed="${m.s==='later'}">Later</button></div></div>`}).join('')}
+ <div class="foot"><p class="small muted">${done} done · ${lat} for later · ${r.moves.length-done-lat} planned</p><div style="display:flex;gap:8px">${back}<button class="btn f" data-act="finish">Finish my reset</button></div></div>`}
+function rs5(r){const x=r.result||{done:0,total:0,later:0,miles:[],layers:[]};
+ const line=x.done?(x.layers.includes('cushion')?'You made room for your future today.':x.layers.includes('debt')?'You took a little weight off today.':'You planted something today.'):x.later?'Saving moves for later is a real plan. They’ll wait for you on your practice page.':'You looked at your money on purpose. That’s the habit.';
+ return `<div class="big-msg"><p class="eyebrow">Payday Reset complete</p><h1>${x.done&&x.done===x.total?'You followed through.':x.done?'You made moves today.':'You showed up.'}</h1>
+ <div class="celebwave v-${x.layers[0]||'cushion'}"><div class="water" style="height:${x.done?62:40}%">${wave()}</div></div>
+ <p class="serif" style="font-size:24px">${line}</p>
+ <p class="muted" style="margin-top:10px">${x.total?`${x.done} of ${x.total} planned moves made${x.later?`, ${x.later} saved for later`:''}.`:''} ${x.miles.length?`<br><b style="color:var(--fuchink)">And a milestone: ${esc(x.miles[0])}.</b>`:''}</p>
+ <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px"><button class="btn" data-act="seeflow">See it in my Flow</button>${x.done?`<button class="btn g" data-act="sharewin">Share the win (no numbers)</button>`:''}</div>
+ ${dueC()?`<p class="small muted" style="margin-top:18px">Your weekly check-in is open whenever you want it. <button class="link" data-act="go" data-v="checkin">Check in now</button></p>`:''}</div>`}
+
+/* ---------- weekly check-in ---------- */
+function newCI(mode){return{mode,step:1,conf:0,feel:'',ans:mode==='moment'?(THEMES[S.themeIdx].type==='checks'?[]:THEMES[S.themeIdx].type==='slider'?3:''):null,text:'',support:S.support}}
+function lookback(){const cs=S.checkins.slice(-8);const tally={};cs.forEach(c=>tally[c.feel]=(tally[c.feel]||0)+1);
+ const top=Object.entries(tally).sort((a,b)=>b[1]-a[1]);
+ const rs=S.log.filter(l=>l.k==='move'&&NOW-new Date(l.d)<31*DAY).length;
+ return `<section class="card sec"><div class="sech" style="margin:0"><h3>Your month, looking back</h3><button class="link" data-act="go" data-v="tide">Open your ${MONTH} tide chart</button></div><p class="small muted">Private to you. No streaks, no scores. Just the shape of things.</p>
+  <div class="lb"><div><span class="lab small">Confidence, week by week</span>${cs.length?`<div class="bars">${cs.map(c=>`<div><i style="height:${c.conf*20}%" title="${c.conf} of 5"></i><small>${fdate(c.d)}</small></div>`).join('')}</div>`:'<p class="muted small">Your first check-in starts this picture.</p>'}</div>
+  <div><span class="lab small">How money felt</span><div class="why" style="margin:10px 0">${top.map(([f,n])=>`<span class="chip sm" style="display:inline-block">${f}${n>1?' ×'+n:''}</span>`).join('')||'<span class="muted small">Nothing yet</span>'}</div>
+   <span class="lab small">Habits this month</span><p class="small">${rs} payday resets with moves made · ${S.goals.reduce((s,g)=>s+g.marks.filter(m=>NOW-new Date(m.d)<31*DAY).length,0)} milestones reached</p>
+   ${cs.length>1&&cs[cs.length-1].conf>cs[0].conf?`<p class="serif" style="font-size:18px;margin-top:10px">Your confidence is higher than when this window started.</p>`:''}</div></div></section>`}
+function vCheckin(){
+ const c=S.ci;
+ if(!c||c.step===0)return `<p class="eyebrow">Weekly Check-In</p><h1>How’s your money feeling?</h1><p class="lede">${S.checkinDone?'You already checked in this week. You’re welcome to do it again if something shifted.':'Same two questions every week, so you can see your own trend. Nothing unlocks or locks because of this.'}</p>
+  <div class="modes"><button class="mode" data-act="cimode" data-v="quick"><span class="t">About 30 seconds</span><b>Quick Pulse</b><span class="muted">Confidence, feeling, and what support you want.</span></button>
+  <button class="mode" data-act="cimode" data-v="moment"><span class="t">Two to three minutes</span><b>Take a Moment</b><span class="muted">The same, plus one reflection. This week’s theme: ${THEMES[S.themeIdx].n}.</span></button></div>${lookback()}`;
+ const steps=c.mode==='moment'?[1,2,3]:[1,3];const idx=steps.indexOf(c.step);
+ const head=c.step<4?`<div class="flowhead"><p class="eyebrow">${c.mode==='moment'?'Take a Moment':'Quick Pulse'}</p><div class="steps">${steps.map((s,i)=>`<i class="${i<=idx?'on':''}"></i>`).join('')}</div></div>`:'';
+ let b='';
+ if(c.step===1)b=`<h2>How confident do you feel about your money right now?</h2>
+  <div class="conf" role="group" aria-label="Confidence from 1 to 5">${[1,2,3,4,5].map(n=>`<button data-act="conf" data-v="${n}" aria-pressed="${c.conf===n}"><i style="height:${n*20}%"></i><span>${n}</span></button>`).join('')}</div><div class="scale"><span>Not at all</span><span>Very</span></div>
+  <h2 style="margin-top:34px">How have you felt about money this week?</h2><div class="seg">${FEELS.map(f=>chip('feel',f,f[0].toUpperCase()+f.slice(1),c.feel===f)).join('')}</div>
+  <div class="foot"><button class="btn g" data-act="cistart">Back</button><button class="btn" data-act="cinext" ${c.conf&&c.feel?'':'disabled'}>Next</button></div>`;
+ if(c.step===2){const T=THEMES[S.themeIdx];let inp='';
+  if(T.type==='checks')inp=T.o.map((o,i)=>`<label class="ck"><input type="checkbox" data-act="thcheck" data-v="${i}" ${c.ans.includes(i)?'checked':''}>${o}</label>`).join('');
+  if(T.type==='slider')inp=`<input type="range" min="1" max="5" value="${c.ans}" data-bind="ci.ans" aria-label="${T.q}"><div class="scale"><span>${T.lo}</span><span>${T.hi}</span></div><p class="serif" style="font-size:20px;margin-top:8px" data-out="reflect">${OUT.reflect()}</p>`;
+  if(T.type==='choice')inp=`<div class="seg">${T.o.map(o=>chip('thchoice',o,o,c.ans===o)).join('')}</div>${T.text?`<div class="f"><label for="tt">${T.text}</label><input id="tt" class="txt" data-bind="ci.text" value="${esc(c.text)}" maxlength="200"></div>`:''}`;
+  b=`<p class="eyebrow">This week’s theme: ${T.n}</p><h2>${T.q}</h2><div style="margin-top:14px">${inp}</div>
+  <div class="theme-row small muted" style="margin-top:26px">Themes rotate weekly. Preview: ${THEMES.map((t,i)=>chip('thpre',i,t.n,i===S.themeIdx,1)).join('')}</div>
+  <div class="foot"><button class="btn g" data-act="ciback">Back</button><button class="btn" data-act="cinext">Next</button></div>`}
+ if(c.step===3)b=`<h2>What would help most right now?</h2><p class="lede">This shapes how Money 80 talks to you. Change it anytime.</p>
+  <div class="opts">${SUPPORT.map(s=>`<button class="opt" data-act="cisup" data-v="${s.id}" aria-pressed="${c.support===s.id}"><b>${s.t}</b><small>${s.d}</small></button>`).join('')}</div>
+  <label class="priv"><input type="checkbox" class="sw" data-bind="inform" ${S.inform?'checked':''}><span><b>Let my check-ins shape my messages.</b><br><span class="small muted">Your reflections are private. Nothing here is ever shared with the community.</span></span></label>
+  <div class="foot"><button class="btn g" data-act="ciback">Back</button><button class="btn f" data-act="cifinish">Finish check-in</button></div>`;
+ if(c.step===4){const m={calm:'Calm is worth noticing. Whatever you’re doing, it’s working.',hopeful:'Hold onto that hope. It’s built on moves you’ve actually made.',proud:'Proud is earned. You did the things.',uncertain:'Uncertain is honest. You don’t need every answer to take the next small step.',overwhelmed:'Thank you for telling the truth. This week, one small thing is plenty. Or nothing at all.'};
+  b=`<div class="big-msg"><p class="eyebrow">Checked in</p><h1>${m[c.feel]}</h1><p class="muted" style="margin-top:12px">${{encourage:'We’ll keep cheering you on.',account:'We’ll check in on your follow-through, kindly.',explain:'We’ll bring you the why behind things.',space:'We’ll keep it quiet and let you lead.'}[c.support]}</p>
+  <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:22px"><button class="btn" data-act="go" data-v="practice">Back to my practice</button>${dueP()?'<button class="btn f" data-act="startreset">Start Payday Reset</button>':''}</div></div>${lookback()}`}
+ return head+`<div class="panel" style="${c.step===4?'max-width:none':''}">${b}</div>`}
+
+/* ---------- goals ---------- */
+function vGoals(){
+ const marks=S.goals.flatMap(g=>g.marks.map(m=>({...m,g}))).sort((a,b)=>new Date(b.d)-new Date(a.d));
+ return `<p class="eyebrow">My Goals</p><h1>Your Financial Flow</h1><p class="lede">Each tide rises on its own. Work on one, or all three. Most progress comes from moves you confirm in your Payday Reset. Use <b>Update balance</b> for quick corrections like interest or a withdrawal.</p>
+ <div class="flow sec">${LAYERS.map(L=>vessel(L,1)).join('')}</div>
+ <section class="sec"><div class="sech"><h2>Goals</h2><button class="btn g" data-act="addgoal" data-v="future">+ Add a goal</button></div>
+ <div class="gcards">${S.goals.map(g=>{const L=LAYERS.find(l=>l.id===g.layer);return `<article class="gc v-${g.layer}"><small class="muted">${L.title}</small><h3>${esc(g.name)}</h3>
+  <div class="amt">${g.kind==='debt'?`${fmt(g.balance)} <span class="small muted" style="font-family:var(--sans)">left of ${fmt(g.start)}</span>`:`${fmt(g.balance)} <span class="small muted" style="font-family:var(--sans)">of ${fmt(g.target)}</span>`}</div>
+  <div class="bar"><i style="width:${pct(g)*100}%"></i></div>
+  ${g.why?`<p class="small"><span class="muted">Why it matters:</span> ${esc(g.why)}</p>`:''}${g.by?`<p class="small muted">Aiming for ${new Date(g.by+'-15').toLocaleDateString('en-US',{month:'long',year:'numeric'})}</p>`:''}
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px"><button class="btn t" style="min-height:42px;padding:8px 16px" data-act="upd" data-v="${g.id}">Update balance</button><button class="btn g" style="min-height:42px;padding:8px 16px" data-act="rethink" data-v="${g.id}">Rethink this goal</button></div></article>`}).join('')||'<p class="muted">No goals yet.</p>'}</div></section>
+ <section class="sec"><h2>Milestones you’ve reached</h2><p class="muted small" style="margin:6px 0 14px">These stay, even if a balance dips later. A setback doesn’t erase what you’ve done.</p>
+ <div class="marks">${marks.map(m=>`<span><b>${m.p}%</b> · ${esc(m.g.name)} · ${fdate(m.d)}</span>`).join('')||'<span>Your first milestone is waiting at 25%.</span>'}</div></section>`}
+function updModal(g){modalState={k:'upd',g:g.id,val:String(Math.round(g.balance*100)/100),why:''};
+ openModal(`<p class="eyebrow">Update balance</p><h2>${esc(g.name)}</h2><p class="muted" style="margin-top:6px">A quick correction: interest, a withdrawal, an extra payment you made outside your reset.</p>
+ <div class="f"><label>${g.kind==='debt'?'What you owe right now':'What’s in it right now'}</label>${cur('$m.val',modalState.val)}</div>
+ <div class="seg">${['Interest','Withdrawal','Extra payment','Just correcting'].map(w=>chip('updwhy',w,w,0,1)).join('')}</div>
+ <p class="small muted" style="margin-top:16px">Self-reported, like everything here. We never connect to your bank.</p>
+ <div class="foot"><button class="btn g" data-act="close">Cancel</button><button class="btn" data-act="updsave">Save</button></div>`)}
+function rtModal(g,layer){
+ const n=!g;g=g||{id:'new',layer:layer||'future',kind:layer==='debt'?'debt':'save',name:'',start:0,balance:0,target:0,why:'',by:'',strategy:''};
+ modalState={k:'rt',step:1,n,g:JSON.parse(JSON.stringify(g))};drawRt()}
+function pace(){const m=modalState;if(!m||m.k!=='rt')return '';const g=m.g;if(!g.by)return 'Pick a month to see the pace.';
+ const months=Math.max(1,(new Date(g.by+'-15')-NOW)/(30.4*DAY));const left=g.kind==='debt'?num(g.balance):Math.max(0,num(g.target)-num(g.balance));
+ if(!left)return 'You’re already there.';const per=left/(months*2.17);return `That’s about ${money(per)} per paycheck if you’re paid every two weeks. Adjust until it feels doable.`}
+function drawRt(){const m=modalState,g=m.g,L=LAYERS.find(l=>l.id===g.layer);let b='';
+ if(m.step===1)b=`<h2>${m.n?'A new goal':'Why does this goal matter now?'}</h2>
+  <div class="f"><label for="gn">Name it in your own words</label><input id="gn" class="txt" data-bind="$m.g.name" value="${esc(g.name)}" placeholder="Beach week with my sister"></div>
+  ${m.n?`<div class="f"><span class="lab">Which tide does it belong to?</span><div class="seg" style="margin-top:4px">${LAYERS.map(l=>chip('rtlayer',l.id,l.title,g.layer===l.id,1)).join('')}</div></div>`:''}
+  <div class="f"><label for="gw">What will reaching it give you?</label><input id="gw" class="txt" data-bind="$m.g.why" value="${esc(g.why)}" placeholder="Knowing I have a safety net"></div>
+  <div class="seg">${S.priorities.map(p=>chip('rtwhy',priText(p),priText(p),g.why===priText(p),1)).join('')}</div>`;
+ if(m.step===2)b=`<h2>${g.kind==='debt'?'Where does this debt stand?':'What’s the target?'}</h2>
+  ${g.kind==='debt'?`<div class="two" style="margin-top:8px"><div class="f"><label>What you owed when you started</label>${cur('$m.g.start',g.start)}</div><div class="f"><label>What you owe now</label>${cur('$m.g.balance',g.balance)}</div></div>`:
+  `<div class="two" style="margin-top:8px"><div class="f"><label>Target</label>${cur('$m.g.target',g.target)}</div><div class="f"><label>Saved so far</label>${cur('$m.g.balance',g.balance)}</div></div>`}
+  ${g.layer==='cushion'?tip('<b>A common guideline</b> is three to six months of essential expenses. Variable income or being the only earner? Lean toward six. Starting smaller is completely fine.','ef'):g.kind==='debt'?tip('Changing the starting balance resets the “how far you’ve come” math. Your past milestones stay either way.'):''}`;
+ if(m.step===3)b=`<h2>When would you like to get there?</h2><div class="f"><label for="gb">Target month</label><input id="gb" type="month" class="txt" style="max-width:260px" data-bind="$m.g.by" value="${esc(g.by)}"></div><p class="serif" style="font-size:19px;margin-top:16px" data-out="pace">${pace()}</p>`;
+ if(m.step===4){const opts=g.kind==='debt'?[['avalanche','Highest interest first','Usually saves the most money.'],['snowball','Smallest balance first','Quicker wins to keep you going.'],['mix','A bit of both','Whatever feels right each payday.']]:[['steady','A little every payday','Steady and small.'],['lump','Bigger amounts when I can','Bonuses, refunds, good months.'],['pause','Pause for now','It’s allowed. It’ll be here.']];
+  b=`<h2>What’s your approach?</h2><div class="opts" style="grid-template-columns:minmax(0,1fr)">${opts.map(([v,t,d])=>`<button class="opt" data-act="rtstrat" data-v="${v}" aria-pressed="${g.strategy===v}"><b>${t}</b><small>${d}</small></button>`).join('')}</div>${g.kind==='debt'?tip('Both methods work. The best one is the one you’ll stick with.','aval'):''}`}
+ $('#modal').classList.contains('show')?($('#sheet').innerHTML=`<button class="x" data-act="close" aria-label="Close">×</button>`+inner()):openModal(inner());
+ function inner(){return `<p class="eyebrow">${m.n?'Add a goal':'Rethink this goal'} · ${m.step} of 4 · ${L.title}</p>${b}<div class="foot"><button class="btn g" data-act="${m.step>1?'rtback':'close'}">${m.step>1?'Back':'Cancel'}</button><button class="btn" data-act="${m.step<4?'rtnext':'rtsave'}">${m.step<4?'Next':m.n?'Add goal':'Save changes'}</button></div>`}}
+
+/* ---------- community ---------- */
+const MONEY_RE=/\$\s?\d|\d[\d,]*\.?\d*\s?(k\b|dollars|bucks)|\b\d{1,3}(,\d{3})+\b|\b\d{3,}\b/i;
+let draft={text:'',sp:'wins',as:'name'};
+function vCommunity(){
+ const sp=SPACES.find(s=>s.id===S.space),posts=S.posts.filter(p=>p.sp===S.space);
+ const flagged=MONEY_RE.test(draft.text);
+ return `<p class="eyebrow">Your People</p><h1>Community</h1><p class="lede">Share the action, the habit, the lesson. Never the balance. Here, “I looked at my statement” gets the same cheer as any milestone.</p>
+ <div class="spaces" role="tablist">${SPACES.map(s=>`<button class="chip" role="tab" data-act="space" data-v="${s.id}" aria-selected="${s.id===S.space}" aria-pressed="${s.id===S.space}">${s.n}</button>`).join('')}</div>
+ <p class="muted">${sp.d}</p>
+ <div class="compose"><label class="lab" for="ct">Share with ${sp.n}</label><textarea id="ct" data-draft="text" maxlength="400" placeholder="${{wins:'I finally…',ask:'I’ve been wondering…',table:'Something I learned…',check:'This week felt…'}[S.space]}">${esc(draft.text)}</textarea>
+  <div id="guard">${flagged?`<div class="guard">Money 80 keeps celebrations money-agnostic, so nobody compares numbers. Try sharing the action instead of the amount. <button class="link" data-act="strip">Remove the numbers for me</button></div>`:''}</div>
+  <div class="foot" style="border:0;margin-top:10px;padding-top:0"><div class="seg" style="margin:0">${chip('postas','name','Post as '+(S.name||'me'),draft.as==='name',1)}${chip('postas','init','Post as '+(S.name?S.name[0]+'.':'initials'),draft.as==='init',1)}</div><button class="btn f" data-act="post" ${draft.text.trim()?'':'disabled'}>Post to ${sp.n}</button></div>
+  <p class="small muted">Nothing is shared unless you press post. Your goals, numbers and reflections are never visible here.</p></div>
+ <div>${posts.map(postHtml).join('')||'<p class="muted" style="margin-top:20px">Be the first to post here.</p>'}</div>
+ <p class="sample">Community members and posts are sample content for this prototype.</p>`}
+function postHtml(p){const mine=S.mine[p.id];const nm=mine?(p.a):p.a;
+ return `<article class="post" id="${p.id}"><header><span class="av">${esc(nm[0])}</span><div><b>${esc(nm)}${mine?' <span class="small muted">(you)</span>':''}</b><div class="small muted">${fdate(p.t)}</div></div></header>
+ <p class="tx">${esc(p.x)}</p>
+ <div class="reacts">${(REACTS[p.sp]||REACTS.wins).map(([k,l])=>`<button class="rb" data-act="react" data-p="${p.id}" data-v="${k}" aria-pressed="${!!(p.my&&p.my[k])}">${l} · ${p.r[k]||0}</button>`).join('')}<button class="chip sm" data-act="cmt" data-v="${p.id}">${p.c.length?p.c.length+(p.c.length>1?' replies':' reply'):'Reply'}</button></div>
+ ${p.open?`<div class="cmts">${p.c.map(c=>`<div class="cmt"><b>${esc(c.a)}</b>${esc(c.x)}</div>`).join('')}<div class="cmtform"><input class="txt" id="cm-${p.id}" placeholder="Say something kind or useful" maxlength="240" aria-label="Reply"><button class="btn" data-act="cmtsend" data-v="${p.id}">Reply</button></div></div>`:''}</article>`}
+
+/* ---------- monthly tide chart ---------- */
+const MONTH=NOW.toLocaleDateString('en-US',{month:'long'});
+function practicing(){const m=Math.round((NOW-new Date(S.since))/(30.4*DAY));return m<1?'Practicing since '+fdate(S.since):m===1?'Practicing for 1 month':`Practicing for ${m} months`}
+function bandWin(L){const gs=inLayer(L.id),n=S.month.moves[L.id]||0;
+ const mile=gs.flatMap(g=>g.marks.filter(m=>NOW-new Date(m.d)<31*DAY).map(m=>mileText(g,m.p))).pop();
+ if(mile)return mile;
+ if(!gs.length)return L.id==='debt'?'Standing on solid ground':'Ready for its first move';
+ const g=gs[0],nm=g.name.replace(/^(Pay (off|down)|Start) (my |the )?/i,'');
+ if(n)return L.id==='debt'?`${n} extra payment${n>1?'s':''} toward ${g.kind==='debt'?'the '+nm.replace(/^the /i,''):nm}`:`${n} move${n>1?'s':''} into ${gs.length>1?L.title.toLowerCase():g.name.replace(/^Start my /,'your ')}`;
+ return 'Holding steady this month'}
+function vTide(){
+ const cs=S.checkins.filter(c=>NOW-new Date(c.d)<31*DAY);
+ const miles=S.goals.reduce((s,g)=>s+g.marks.filter(m=>NOW-new Date(m.d)<31*DAY).length,0);
+ const moves=Object.values(S.month.moves).reduce((a,b)=>a+b,0);
+ const conf=cs.length>1?`${cs[0].conf} → ${cs[cs.length-1].conf}`:cs.length?cs[0].conf+' of 5':'–';
+ const order=['future','cushion','debt'].map(id=>LAYERS.find(l=>l.id===id));
+ return `<p class="eyebrow">Your monthly tide chart</p><h1>${MONTH}, in motion</h1><p class="lede">A picture of what you did this month, never how much. Made to be screenshotted and kept.</p>
+ <div class="tcwrap"><div class="tc" id="tc" aria-label="${esc(S.name)}’s ${MONTH} tide chart">
+  <div class="tct"><div class="tb"><svg width="26" height="26" viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="20" r="18" fill="none" stroke="#fff" stroke-width="2"/><text x="20" y="25" text-anchor="middle" font-family="Georgia" font-size="14" fill="#fff">80</text></svg>Money 80</div>
+   <h2>${esc(S.name)}’s ${MONTH}</h2><p class="since">${practicing()}</p>
+   <div class="tst"><div><b>${S.month.resets}</b><small>resets</small></div><div><b>${moves}</b><small>moves made</small></div><div><b>${cs.length}</b><small>check-ins</small></div><div><b>${miles}</b><small>milestone${miles===1?'':'s'}</small></div></div>
+   ${cs.length?`<p style="margin-top:12px;font-size:15px;opacity:.92">Confidence ${conf} · felt ${[...new Set(cs.map(c=>c.feel))].slice(-3).join(', ')}</p>`:''}</div>
+  <div class="sea">${order.map((L,i)=>{const p=lp(L.id);return `<div class="band v-${L.id}" style="min-height:${60+p*46}px;${i===0?'margin-top:18px':''}">${wave()}<small>${L.title}${S.showPct?`<span class="rp">${Math.floor(p*100)}%</span>`:''}</small><p>${esc(bandWin(L))}</p></div>`}).join('')}
+   <div class="tcfoot v-debt"><span>Small moves. Rising tide.</span><span>money80</span></div></div>
+ </div>
+ <div><h3>Keep it</h3><p class="muted" style="margin-top:6px">Take a screenshot. On an iPhone, press the side button and volume up together. On Android, power and volume down. On a Mac, Cmd+Shift+4. On Windows, Windows+Shift+S.</p>
+  <label class="priv" style="margin-top:18px"><input type="checkbox" class="sw" data-bind="showPct" ${S.showPct?'checked':''}><span><b>Show my progress percentages</b><br><span class="small muted">Off by default, so it’s safe to share. Dollar amounts never appear here.</span></span></label>
+  <div class="f"><span class="lab">Colors</span>${swatches()}</div>
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:22px"><button class="btn f" data-act="sharetide">Share a win from this month</button><button class="btn g" data-act="go" data-v="practice">Back to my practice</button></div>
+  <p class="sample">Your tide chart rebuilds itself each month from the moves, check-ins and milestones you confirmed.</p></div></div>`}
+const PALS=[['tide','Tide','linear-gradient(135deg,#0A949C,#6A1B9A,#DA0C9B)'],['sunrise','Sunrise','linear-gradient(135deg,#F7A25B,#E8604C,#D81B60,#5E2A84)'],['lagoon','Lagoon','linear-gradient(135deg,#38B6E8,#0A949C,#1E3F8A,#7B4BC4)']];
+function swatches(){return `<div class="sws" role="group" aria-label="Color theme">${PALS.map(([id,n,g])=>`<button class="sw2" data-act="pal" data-v="${id}" aria-pressed="${S.palette===id}" title="${n}" aria-label="${n}" style="background:${g}"></button>`).join('')}</div>`}
+
+/* ---------- learn ---------- */
+function vLearn(){const tags=['All',...new Set(ART.map(a=>a.tag))];const list=ART.filter(a=>S.lfilter==='All'||a.tag===S.lfilter);
+ const fy=forYou();
+ return `<p class="eyebrow">Learn</p><h1>Short reads, when they’re useful</h1><p class="lede">Most of what you’ll learn here shows up right inside your Payday Reset and goals, at the moment it matters. This is the full shelf.</p>
+ <div class="card sec fy" style="max-width:560px">${fy}</div>
+ <div class="seg sec">${tags.map(t=>chip('lf',t,t,S.lfilter===t,1)).join('')}</div>
+ <div class="lgrid">${list.map(a=>`<button class="art" data-act="read" data-v="${a.id}"><span class="small" style="color:var(--fuchink);font-weight:700">${a.tag} · ${a.m} min</span><b>${a.t}</b><span class="small muted">${a.w}</span></button>`).join('')}</div>
+ <p class="sample">Educational, not financial, tax or legal advice.</p>`}
+
+/* ---------- onboarding ---------- */
+const OBG=[['debt','Pay down debt','Credit cards, loans, medical bills'],['emerg','Build emergency savings','A real safety net'],['check','Create a checking cushion','Breathing room between paydays'],['invest','Start investing','Retirement or long-term growth'],['mean','Save for something meaningful','A trip, a move, a dream'],['aware','Improve spending awareness','Know where it goes']];
+function estTotal(){return Object.values(S.ob.d.emerg.est).reduce((s,v)=>s+num(v),0)}
+function emergTarget(){const e=S.ob.d.emerg;return e.path==='know'?num(e.monthly)*e.months:e.path==='estimate'?estTotal()*e.months:1000}
+function vWelcome(){
+ const o=S.ob;const prog=`<div class="flowhead"><p class="eyebrow">Getting started · step ${Math.min(o.step+1,4)} of 4</p><div class="steps">${[0,1,2,3].map(i=>`<i class="${i<=o.step?'on':''}"></i>`).join('')}</div></div>`;
+ let b='';
+ if(o.step===0)b=`<h1>Welcome to Money 80.</h1><p class="lede" style="font-size:19px">This is a practice, not a scoreboard. Let’s start with you.</p>
+  <div class="f" style="max-width:360px"><label for="nm">What should we call you?</label><input id="nm" class="txt" data-bind="ob.name" value="${esc(o.name)}" autocomplete="given-name"></div>
+  <h2 class="sec">What would feeling better about money mean for you?</h2><p class="muted">Pick any that ring true. We’ll use your words to encourage you later.</p>
+  <div class="opts">${PRI.map(p=>`<button class="opt" data-act="obpri" data-v="${p.id}" aria-pressed="${o.pri.includes(p.id)}"><b>${p.t}</b></button>`).join('')}</div>
+  <div class="foot"><span></span><button class="btn" data-act="obnext" ${o.pri.length?'':'disabled'}>Next</button></div>`;
+ if(o.step===1)b=`<h1>What are you working toward?</h1><p class="lede">Choose as many as you like. You can work on all of them at once.</p>
+  <div class="opts">${OBG.map(([id,t,d])=>`<button class="opt" data-act="obgoal" data-v="${id}" aria-pressed="${o.goals.includes(id)}"><b>${t}</b><small>${d}</small></button>`).join('')}</div>
+  <div class="foot"><button class="btn g" data-act="obback">Back</button><button class="btn" data-act="obnext" ${o.goals.length?'':'disabled'}>Next</button></div>`;
+ if(o.step===2){const d=o.d;b=`<h1>Where are you starting?</h1><p class="lede">Rough numbers are fine. You can update anything later, and nothing here is ever shared.</p>
+  ${o.goals.includes('debt')?`<div class="obg"><h3>Pay down debt</h3><div class="seg">${['Credit card','Student loan','Car loan','Medical','Other'].map(t=>chip('obdebt',t,t,d.debt.type===t,1)).join('')}</div><div class="f"><label>What do you owe right now?</label>${cur('ob.d.debt.bal',d.debt.bal)}</div></div>`:''}
+  ${o.goals.includes('emerg')?`<div class="obg"><h3>Emergency savings</h3><div class="f"><label>Saved so far</label>${cur('ob.d.emerg.saved',d.emerg.saved)}</div>
+   ${tip('<b>A common guideline</b> is three to six months of essential expenses: just the must-haves, not your whole paycheck. Your situation might call for more or less.','ef')}
+   <div class="f"><span class="lab">Do you know your monthly essential expenses?</span><div class="seg" style="margin-top:4px">${[['know','I know my number'],['estimate','Help me estimate it'],['later','I’ll figure this out later']].map(([v,l])=>chip('obpath',v,l,d.emerg.path===v)).join('')}</div></div>
+   ${d.emerg.path==='know'?`<div class="f"><label>Monthly essentials</label>${cur('ob.d.emerg.monthly',d.emerg.monthly)}</div>`:''}
+   ${d.emerg.path==='estimate'?`<div class="est">${Object.keys(d.emerg.est).map(k=>`<div class="f" style="margin-top:8px"><label>${k}</label>${cur('ob.d.emerg.est.'+k,d.emerg.est[k])}</div>`).join('')}</div><p style="margin-top:12px">Monthly essentials: <b data-out="est">${OUT.est()}</b></p>`:''}
+   ${d.emerg.path!=='later'?`<div class="f"><label for="mo">How many months feels right? <span data-out="months">${d.emerg.months} months</span></label><input id="mo" type="range" min="3" max="6" value="${d.emerg.months}" data-bind="ob.d.emerg.months"></div><p class="serif" style="font-size:20px">Your target: <span data-out="esttarget">${OUT.esttarget()}</span></p>`:`<p style="margin-top:12px">No problem. We’ll start with a <b>$1,000 starter goal</b> and you can rethink it anytime.</p>`}</div>`:''}
+  ${o.goals.includes('check')?`<div class="obg"><h3>Checking cushion</h3><div class="two"><div class="f"><label>Usually left before payday</label>${cur('ob.d.check.now',d.check.now)}</div><div class="f"><label>What would feel like breathing room?</label>${cur('ob.d.check.target',d.check.target)}</div></div></div>`:''}
+  ${o.goals.includes('invest')?`<div class="obg"><h3>Start investing</h3><div class="two"><div class="f"><label>Invested so far (any account)</label>${cur('ob.d.invest.now',d.invest.now)}</div><div class="f"><label>A first milestone</label>${cur('ob.d.invest.target',d.invest.target)}</div></div>${tip('Retirement money taken straight from your paycheck counts here too.','roth')}</div>`:''}
+  ${o.goals.includes('mean')?`<div class="obg"><h3>Something meaningful</h3><div class="f"><label for="mn">What is it?</label><input id="mn" class="txt" data-bind="ob.d.mean.name" value="${esc(d.mean.name)}" placeholder="Beach week with my sister"></div><div class="two"><div class="f"><label>Target</label>${cur('ob.d.mean.target',d.mean.target)}</div><div class="f"><label>Saved so far</label>${cur('ob.d.mean.now',d.mean.now)}</div></div></div>`:''}
+  ${o.goals.includes('aware')?`<div class="obg"><h3>Spending awareness</h3><p class="muted">No numbers needed. Every Payday Reset is a rep: you’ll see what came in and where it’s spoken for, on purpose.</p></div>`:''}
+  <div class="foot"><button class="btn g" data-act="obback">Back</button><button class="btn" data-act="obnext">Next</button></div>`}
+ if(o.step===3)b=`<h1>How can we support you?</h1><p class="lede">This changes how Money 80 talks to you. You can change it anytime from your frame.</p>
+  <div class="opts">${SUPPORT.map(s=>`<button class="opt" data-act="obsup" data-v="${s.id}" aria-pressed="${o.support===s.id}"><b>${s.t}</b><small>${s.d}</small></button>`).join('')}</div>
+  <div class="foot"><button class="btn g" data-act="obback">Back</button><button class="btn f" data-act="obfinish" ${o.support?'':'disabled'}>Start my practice</button></div>`;
+ return prog+`<div class="panel" style="max-width:860px">${b}</div>`}
+function finishOb(){const o=S.ob,d=o.d,G=[];let i=0;const id=()=>'n'+(++i)+Date.now()%1e5;
+ const why=priText(o.pri[0]);
+ if(o.goals.includes('debt')&&num(d.debt.bal)>0){const b=num(d.debt.bal);G.push(goal({id:id(),layer:'debt',kind:'debt',name:`Pay down my ${d.debt.type.toLowerCase()}`,start:b,balance:b,why:priText(o.pri.includes('stress')?'stress':o.pri[0])}))}
+ if(o.goals.includes('emerg'))G.push(goal({id:id(),layer:'cushion',kind:'save',name:d.emerg.path==='later'?'Starter emergency fund':'Emergency fund',balance:num(d.emerg.saved),target:emergTarget()||1000,why:priText(o.pri.includes('safety')?'safety':o.pri[0])}));
+ if(o.goals.includes('check'))G.push(goal({id:id(),layer:'cushion',kind:'save',name:'Checking cushion',balance:num(d.check.now),target:num(d.check.target)||500,why:priText(o.pri.includes('breathing')?'breathing':o.pri[0])}));
+ if(o.goals.includes('invest'))G.push(goal({id:id(),layer:'future',kind:'save',name:'Start investing',balance:num(d.invest.now),target:num(d.invest.target)||1000,why:priText(o.pri.includes('future')?'future':o.pri[0])}));
+ if(o.goals.includes('mean'))G.push(goal({id:id(),layer:'future',kind:'save',name:d.mean.name||'Something meaningful',balance:num(d.mean.now),target:num(d.mean.target)||1000,why}));
+ G.forEach(g=>{g.marks=[];g.prev=g.balance;g.high=pct(g)});
+ Object.assign(S,{since:new Date().toISOString(),name:o.name.trim()||'friend',priorities:o.pri,support:o.support,goals:G,onboarded:true,ob:null,scenario:'payday',resetDone:false,checkinDone:false,log:[{d:new Date().toISOString(),k:'learn',t:'Set up your practice'}]});
+ LAYERS.forEach(L=>shown[L.id]=0);pendingFx={msg:`Welcome, ${S.name}. Your practice is ready.`}}
+
+/* ---------- frame (her private context) ---------- */
+function ctxHtml(){
+ return `<div class="glass who"><span class="av">${esc((S.name||'?')[0])}</span><div><b class="serif" style="font-size:20px">${esc(S.name||'Welcome')}</b><div class="small" style="opacity:.8">${S.onboarded?practicing():'Just getting started'}</div></div></div>
+ ${S.priorities.length?`<div class="glass"><h4>What matters to me</h4><div class="why">${S.priorities.map(p=>`<span>${priText(p)}</span>`).join('')}</div></div>`:''}
+ <div class="glass"><h4>My rhythm</h4><div class="row"><span>Payday Reset</span><b>${dueP()?'Today':wdate(nextPay())}</b></div><div class="row"><span>Weekly check-in</span><b>${dueC()?'Open now':S.checkinDone?'Done this week':'Fridays'}</b></div>
+  <label class="row"><span>Payday reminders</span><input type="checkbox" class="sw" data-bind="remind.payday" ${S.remind.payday?'checked':''}></label><label class="row"><span>Weekly reminders</span><input type="checkbox" class="sw" data-bind="remind.weekly" ${S.remind.weekly?'checked':''}></label></div>
+ <div class="glass"><h4>How I like support</h4><select data-bind="support" aria-label="Support style">${SUPPORT.map(s=>`<option value="${s.id}" ${S.support===s.id?'selected':''}>${s.t}</option>`).join('')}</select></div>
+ <div class="glass"><h4>Privacy</h4><label class="row"><span>Hide my numbers</span><input type="checkbox" class="sw" data-act="hide" ${S.hide?'checked':''}></label><label class="row"><span>Reflections shape my messages</span><input type="checkbox" class="sw" data-bind="inform" ${S.inform?'checked':''}></label><label class="row"><span>Calm motion</span><input type="checkbox" class="sw" data-bind="calm" ${S.calm?'checked':''}></label><p class="small" style="opacity:.8;margin-top:6px">No bank syncing. Nothing shared unless you post it.</p></div>`}
+
+/* ---------- router & render ---------- */
+const VIEWS={tide:vTide,practice:vPractice,reset:vReset,checkin:vCheckin,goals:vGoals,community:vCommunity,learn:vLearn,welcome:vWelcome};
+const NAV=[['practice','My Practice','Home'],['reset','Payday Reset','Reset'],['checkin','Check-In','Check-in'],['goals','My Goals','Goals'],['community','Community','People'],['learn','Learn','Learn']];
+let view=(location.hash||'').slice(1);if(!VIEWS[view])view='practice';
+function render(focus){
+ if(!S.onboarded&&!S.ob)S.ob=newMember().ob;
+ const v=S.onboarded?view:'welcome';
+ document.documentElement.classList.toggle('calm',!!S.calm);document.documentElement.dataset.palette=S.palette||'tide';
+ $('#nav').innerHTML=S.onboarded?NAV.map(([id,l,s])=>`<button data-act="go" data-v="${id}" ${id===v?'aria-current="page"':''}><span class="l">${l}</span><span class="s">${s}</span></button>`).join(''):'';
+ $('#hideBtn').setAttribute('aria-pressed',S.hide);$('#palpop').innerHTML=`<b>Colors</b>${swatches()}`;$('.palw').style.visibility=S.onboarded?'':'hidden';$('#hideBtn').style.visibility=S.onboarded?'':'hidden';
+ $('#ctx').innerHTML=S.onboarded?ctxHtml():'';
+ const mctx=S.onboarded?`<details class="mctx card" style="margin-bottom:18px"><summary class="lab" style="cursor:pointer">My frame: rhythm, support & privacy</summary><div class="ctx" style="display:flex;margin-top:12px;color:#fff;background:linear-gradient(135deg,var(--teal),var(--purp),var(--fuch));border-radius:18px;padding:12px">${ctxHtml()}</div></details>`:'';
+ $('#main').innerHTML=(v==='practice'?mctx:'')+VIEWS[v]();
+ if(['practice','goals'].includes(v))animateFlow();
+ $('#pp').innerHTML=protoHtml();
+ if(focus){$('#main').focus({preventScroll:true});window.scrollTo({top:0,behavior:calm()?'auto':'smooth'})}
+ setTimeout(checkMore,60);save()}
+function go(v){view=v;if(location.hash!=='#'+v)history.replaceState(null,'','#'+v);closeModal();render(true)}
+addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(VIEWS[v]&&v!==view){view=v;render(true)}});
+
+function protoHtml(){const sc=[['both','Payday and check-in due'],['payday','Just payday'],['checkin','Just check-in day'],['quiet','A quiet day, nothing due']];
+ return `<b class="serif" style="font-size:19px">Try a different day</b><p class="small muted">See how My Practice changes what it asks for.</p>${sc.map(([v,l])=>`<button class="chip sm" data-act="scn" data-v="${v}" aria-pressed="${S.scenario===v&&S.onboarded}">${l}</button>`).join('')}
+ <hr style="border:0;border-top:1px solid var(--line);margin:12px 0"><button class="chip sm" data-act="newmember">Start as a brand-new member</button><button class="chip sm" data-act="resetdemo">Restore sample member (Maya)</button>`}
+
+function checkMore(){const el=$('#more'),left=document.documentElement.scrollHeight-innerHeight-scrollY;el.hidden=!(left>200&&scrollY<160)}
+addEventListener('scroll',checkMore,{passive:true});addEventListener('resize',checkMore);
+/* ---------- actions ---------- */
+const A={
+ go:t=>go(t.dataset.v),
+ hide:t=>{S.hide=!S.hide;render();toast(S.hide?'Numbers hidden. Progress still shows.':'Numbers visible.')},
+ proto:t=>{const p=$('#proto');p.classList.toggle('open');t.setAttribute('aria-expanded',p.classList.contains('open'))},
+ scn:t=>{if(!S.onboarded)return;S.scenario=t.dataset.v;S.resetDone=false;S.checkinDone=false;S.reset=null;S.ci=null;$('#proto').classList.remove('open');go('practice')},
+ newmember:()=>{const keep=S.posts;S=newMember();S.posts=keep;$('#proto').classList.remove('open');view='practice';history.replaceState(null,'','#practice');render(true)},
+ resetdemo:()=>{S=sample();LAYERS.forEach(L=>shown[L.id]=lp(L.id));$('#proto').classList.remove('open');go('practice')},
+ more:()=>{scrollBy({top:innerHeight*.7,behavior:calm()?'auto':'smooth'})},
+ palmenu:t=>{const o=$('#palpop').classList.toggle('open');t.setAttribute('aria-expanded',o)},
+ pal:t=>{S.palette=t.dataset.v;$('#palpop').classList.remove('open');render();celebrate(`${PALS.find(p=>p[0]===S.palette)[1]} it is.`)},
+ sharetide:()=>{draft={text:`My ${MONTH}: ${S.month.resets} payday resets and ${Object.values(S.month.moves).reduce((a,b)=>a+b,0)} moves I actually made. Small moves, rising tide.`,sp:'wins',as:'name'};S.space='wins';go('community');setTimeout(()=>$('#ct')?.focus(),60)},
+ introok:()=>{S.introSeen=true;render()},
+ startreset:()=>{if(!S.reset||S.reset.step===5)S.reset=newReset();go('reset')},
+ rtype:t=>{const r=R();r.type=t.dataset.v;S.incomeType=r.type;r.taxPct=r.type==='self'?25:0;render()},
+ lastinc:()=>{R().income=String(S.lastIncome);render()},
+ adddep:()=>{R().deps.push({l:'',a:''});render()},rmdep:t=>{R().deps.splice(+t.dataset.v,1);if(!R().deps.length)R().deps.push({l:'',a:''});render()},
+ addbill:()=>{R().bills.push({l:'',a:'',on:true});render();$$('.bill .txt').pop()?.focus()},rmbill:t=>{R().bills.splice(+t.dataset.v,1);render()},
+ rnext:()=>{const r=R();if(r.step===0&&rIncome(r)<=0){toast('Add what came in first. A rough number is fine.');return}r.step++;render(true)},
+ rback:()=>{R().step--;render(true)},
+ amt:t=>{const r=R();r.plan[t.dataset.g]=String(t.dataset.v);const i=$(`[data-bind="reset.plan.${t.dataset.g}"]`);if(i)i.value=t.dataset.v;refresh()},
+ planmoves:()=>{const r=R();r.moves=S.goals.filter(g=>num(r.plan[g.id])>0).map(g=>({g:g.id,a:num(r.plan[g.id]),s:'planned',label:g.kind==='debt'?`Pay an extra ${money(num(r.plan[g.id]))} toward ${g.name.replace(/^Pay (off|down) /i,'')}`:`Move ${money(num(r.plan[g.id]))} to ${g.name}`}));
+  if(!r.moves.length){toast('Pick an amount, even $10, or choose “No moves this time.”');return}r.step=4;render(true)},
+ skipmoves:()=>{const r=R();r.moves=[];A.finish()},
+ mv:t=>{const r=R(),m=r.moves[+t.dataset.i],v=t.dataset.v;m.s=m.s===v?'planned':v;render();if(m.s==='done'){fly($$('.move')[+t.dataset.i].querySelector('.btn.t'),6)}},
+ finish:()=>{const r=R(),done=r.moves.filter(m=>m.s==='done'),later=r.moves.filter(m=>m.s==='later'),miles=[],ml=[],layers=[];
+  done.forEach(m=>{const g=goalById(m.g);if(!g)return;S.month.moves[g.layer]=(S.month.moves[g.layer]||0)+1;const hits=setBalance(g,g.kind==='debt'?g.balance-m.a:g.balance+m.a);if(!layers.includes(g.layer))layers.push(g.layer);hits.forEach(h=>{miles.push(mileText(g,h));ml.push(g.layer);S.log.unshift({d:new Date().toISOString(),k:'mile',t:mileText(g,h)})})});
+  later.forEach(m=>S.later.push({g:m.g,a:m.a,label:m.label}));
+  if(r.moves.length||done.length)S.log.unshift({d:new Date().toISOString(),k:'move',t:r.moves.length?`Payday Reset: made ${done.length===r.moves.length?'all '+done.length:done.length+' of '+r.moves.length} moves you planned`:'Payday Reset: reviewed your money on purpose'});
+  else S.log.unshift({d:new Date().toISOString(),k:'move',t:'Payday Reset: reviewed your money on purpose'});
+  S.stats.resets++;S.month.resets++;S.stats.moves+=done.length;if(r.type==='w2'&&num(r.income))S.lastIncome=num(r.income);
+  S.resetDone=true;r.result={done:done.length,total:r.moves.length,later:later.length,miles,ml,layers};r.step=5;render(true)},
+ seeflow:()=>{const x=R().result;pendingFx={miles:x.ml,msg:x.miles.length?'Milestone: '+x.miles[0]+'.':x.done?(x.layers.includes('cushion')?'You made room for your future today.':x.layers.includes('debt')?'You took a little weight off today.':'You planted something today.'):null};go('practice')},
+ sharewin:()=>{draft={text:R().result.done===R().result.total?'I finished my Payday Reset and made every move I planned.':'I finished my Payday Reset and followed through on my moves.',sp:'wins',as:'name'};S.space='wins';go('community');setTimeout(()=>$('#ct')?.focus(),60)},
+ laterdone:t=>{const m=S.later.splice(+t.dataset.v,1)[0];const g=goalById(m.g);if(g){const hits=setBalance(g,g.kind==='debt'?g.balance-m.a:g.balance+m.a);S.stats.moves++;S.month.moves[g.layer]=(S.month.moves[g.layer]||0)+1;S.log.unshift({d:new Date().toISOString(),k:'move',t:'Made a move you’d saved for later'});hits.forEach(h=>S.log.unshift({d:new Date().toISOString(),k:'mile',t:mileText(g,h)}));pendingFx={miles:hits.length?[g.layer]:[],msg:'Followed through. That one counts.'}}render()},
+ laterdrop:t=>{S.later.splice(+t.dataset.v,1);toast('Let go. Plans change, and that’s fine.');render()},
+ cimode:t=>{S.ci=newCI(t.dataset.v);go('checkin')},
+ cistart:()=>{S.ci=null;render(true)},
+ conf:t=>{S.ci.conf=+t.dataset.v;render()},feel:t=>{S.ci.feel=t.dataset.v;render()},
+ cinext:()=>{const c=S.ci;c.step=c.step===1?(c.mode==='moment'?2:3):3;render(true)},
+ ciback:()=>{const c=S.ci;c.step=c.step===3?(c.mode==='moment'?2:1):1;render(true)},
+ thpre:t=>{S.themeIdx=+t.dataset.v;const T=THEMES[S.themeIdx];S.ci.ans=T.type==='checks'?[]:T.type==='slider'?3:'';S.ci.text='';render()},
+ thchoice:t=>{S.ci.ans=t.dataset.v;render()},
+ thcheck:t=>{const a=S.ci.ans,i=+t.dataset.v;t.checked?a.push(i):a.splice(a.indexOf(i),1)},
+ cisup:t=>{S.ci.support=t.dataset.v;render()},
+ cifinish:()=>{const c=S.ci;S.support=c.support;S.checkins.push({d:new Date().toISOString(),conf:c.conf,feel:c.feel,mode:c.mode,theme:c.mode==='moment'?THEMES[S.themeIdx].id:null});S.log.unshift({d:new Date().toISOString(),k:'checkin',t:`Weekly check-in: you felt ${c.feel}`});S.checkinDone=true;c.step=4;render(true)},
+ upd:t=>updModal(goalById(t.dataset.v)),
+ updwhy:t=>{$$('[data-act=updwhy]').forEach(b=>b.setAttribute('aria-pressed',b===t));modalState.why=t.dataset.v},
+ updsave:()=>{const m=modalState,g=goalById(m.g),nb=num(m.val);const before=pct(g),bh=g.high;const hits=setBalance(g,nb);closeModal();
+  const after=pct(g);if(m.why)S.log.unshift({d:new Date().toISOString(),k:'move',t:`Updated ${g.name}${m.why?' ('+m.why.toLowerCase()+')':''}`});
+  pendingFx={miles:hits.length?[g.layer]:[],msg:after<before?(bh>after?'Setbacks happen. Your high-water mark stays.':'Updated. Your Flow is current.'):hits.length?mileText(g,hits[hits.length-1])+'.':'Updated. Your Flow is current.'};render()},
+ rethink:t=>rtModal(goalById(t.dataset.v)),addgoal:t=>rtModal(null,t.dataset.v),
+ rtlayer:t=>{modalState.g.layer=t.dataset.v;modalState.g.kind=t.dataset.v==='debt'?'debt':'save';drawRt()},
+ rtwhy:t=>{modalState.g.why=t.dataset.v;drawRt()},rtstrat:t=>{modalState.g.strategy=t.dataset.v;drawRt()},
+ rtnext:()=>{const g=modalState.g;if(modalState.step===1&&!g.name.trim()){toast('Give it a name, any name.');return}modalState.step++;drawRt()},rtback:()=>{modalState.step--;drawRt()},
+ rtsave:()=>{const m=modalState,n=m.g;['start','balance','target'].forEach(k=>n[k]=num(n[k]));
+  if(m.n){if(n.kind==='debt'&&!n.start)n.start=n.balance;n.id='g'+Date.now();S.goals.push(goal({...n,marks:[],prev:n.balance}));toast('Goal added. It has its own tide now.')}
+  else{const g=goalById(n.id);Object.assign(g,{name:n.name,why:n.why,by:n.by,strategy:n.strategy,start:n.start,target:n.target});setBalance(g,n.balance);g.high=Math.max(pct(g),g.high);toast('Goal updated. Your milestones are still yours.')}
+  closeModal();render()},
+ close:()=>closeModal(),
+ space:t=>{S.space=t.dataset.v;render()},
+ postas:t=>{draft.as=t.dataset.v;render()},
+ strip:()=>{draft.text=draft.text.replace(/\$\s?[\d,]+(\.\d+)?(\s?k\b)?/gi,'some money').replace(/\b[\d,]{3,}(\.\d+)?\s?(dollars|bucks)?/gi,'a lot').replace(/\b\d+\s?(k|dollars|bucks)\b/gi,'some money');render();$('#ct')?.focus()},
+ post:t=>{const x=draft.text.trim();if(!x)return;if(MONEY_RE.test(x)){toast('Take the numbers out first. Your story is the good part.');return}
+  const p={id:'m'+Date.now(),sp:S.space,a:draft.as==='init'?(S.name[0]+'.'):S.name,t:new Date().toISOString(),x,r:{},c:[]};S.posts.unshift(p);S.mine[p.id]=1;draft={text:'',sp:S.space,as:draft.as};
+  S.log.unshift({d:p.t,k:'checkin',t:`Shared in ${SPACES.find(s=>s.id===p.sp).n}`});render();fly($('#'+p.id+' .tx'),12);toast('Posted. Thank you for sharing.')
+  setTimeout(()=>{p.r.cheer=(p.r.cheer||0)+3;p.r.proud=(p.r.proud||0)+1;p.r.thanks=(p.r.thanks||0)+(p.sp==='table'?2:0);if(view==='community')render()},2600)},
+ react:t=>{const p=S.posts.find(x=>x.id===t.dataset.p),k=t.dataset.v;p.my=p.my||{};p.my[k]=!p.my[k];p.r[k]=(p.r[k]||0)+(p.my[k]?1:-1);if(p.my[k])fly(t,8);t.setAttribute('aria-pressed',p.my[k]);t.textContent=t.textContent.replace(/\d+$/,p.r[k]);save()},
+ cmt:t=>{const p=S.posts.find(x=>x.id===t.dataset.v);p.open=!p.open;render();p.open&&$('#cm-'+p.id)?.focus()},
+ cmtsend:t=>{const p=S.posts.find(x=>x.id===t.dataset.v),i=$('#cm-'+p.id),x=i.value.trim();if(!x)return;if(MONEY_RE.test(x)){toast('Keep replies money-agnostic: share the how, not the how much.');return}p.c.push({a:S.name,x});render();$('#cm-'+p.id)?.focus()},
+ lf:t=>{S.lfilter=t.dataset.v;render()},
+ read:t=>{const a=ART.find(x=>x.id===t.dataset.v);if(!S.log.some(l=>l.t===`Read “${a.t}”`))S.log.unshift({d:new Date().toISOString(),k:'learn',t:`Read “${a.t}”`});save();
+  openModal(`<div class="reader"><span class="small" style="color:var(--fuchink);font-weight:700">${a.tag} · ${a.m} min read</span><h2>${a.t}</h2>${a.b}<p class="small muted">Educational, not financial, tax or legal advice.</p></div>`)},
+ obpri:t=>{const a=S.ob.pri,v=t.dataset.v;a.includes(v)?a.splice(a.indexOf(v),1):a.push(v);render()},
+ obgoal:t=>{const a=S.ob.goals,v=t.dataset.v;a.includes(v)?a.splice(a.indexOf(v),1):a.push(v);render()},
+ obnext:()=>{S.ob.step++;render(true)},obback:()=>{S.ob.step--;render(true)},
+ obdebt:t=>{S.ob.d.debt.type=t.dataset.v;render()},obpath:t=>{S.ob.d.emerg.path=t.dataset.v;render()},obsup:t=>{S.ob.support=t.dataset.v;render()},
+ obfinish:()=>{finishOb();view='practice';history.replaceState(null,'','#practice');render(true)}};
+document.addEventListener('click',e=>{if(!e.target.closest('.palw'))$('#palpop')?.classList.remove('open');const t=e.target.closest('[data-act]');if(!t)return;if(t.type==='checkbox'&&t.dataset.act==='hide'){A.hide(t);return}if(t.type==='checkbox'){A[t.dataset.act]?.(t,e);save();return}A[t.dataset.act]?.(t,e)});
+$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeModal();$('#palpop').classList.remove('open');$('#proto').classList.remove('open')}});
+
+function setP(path,val){let o=S,k=path.split('.');if(k[0]==='$m'){o=modalState;k=k.slice(1)}for(let i=0;i<k.length-1;i++)o=o[k[i]];o[k[k.length-1]]=val}
+function refresh(){$$('[data-out]').forEach(el=>{const f=OUT[el.dataset.out];if(f)el.textContent=f()})}
+function onInput(e){const t=e.target;
+ if(t.dataset.draft){draft.text=t.value;const g=$('#guard'),f=MONEY_RE.test(t.value);g.innerHTML=f?`<div class="guard">Money 80 keeps celebrations money-agnostic, so nobody compares numbers. Try sharing the action instead of the amount. <button class="link" data-act="strip">Remove the numbers for me</button></div>`:'';$('[data-act=post]').disabled=!t.value.trim();return}
+ const b=t.dataset.bind;if(!b)return;
+ const v=t.type==='checkbox'?t.checked:t.type==='range'?+t.value:t.value;setP(b,v);
+ if(['calm','inform','support','showPct'].includes(b)||b.startsWith('remind')){if(b==='support')toast(`Got it: ${SUPPORT.find(s=>s.id===v).t.toLowerCase()} from here on.`);if(e.type==='change'){render()}}
+ refresh();save()}
+document.addEventListener('input',onInput);document.addEventListener('change',e=>{const b=e.target.dataset.bind;if(b&&(['calm','inform','support','showPct'].includes(b)||b.startsWith('remind')))onInput(e)});
+document.addEventListener('focusout',e=>{const t=e.target;if(t.closest?.('.cur')&&t.value.trim()){const n=num(t.value);t.value=n.toLocaleString('en-US',{maximumFractionDigits:2})}});
+render();
+}
+</script>
+</body>
+</html>
